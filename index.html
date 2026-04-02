@@ -18,20 +18,29 @@
                 const data = await response.json();
                 
                 // Update User Info
-                document.querySelector('p.text-indigo-100').textContent = `வணக்கம், ${data.user.name}`;
-                document.querySelector('.bg-white\\/20').textContent = `Lvl ${data.user.level} • ${data.user.rank}`;
+                const nameEl = document.querySelector('[data-field="user-name"]');
+                if (nameEl) nameEl.textContent = `வணக்கம், ${data.user.name}`;
+                
+                const rankEl = document.querySelector('[data-field="user-rank"]');
+                if (rankEl) rankEl.textContent = `Lvl ${data.user.level} • ${data.user.rank}`;
                 
                 // Update Progress
                 const progress = data.curriculum.weeklyProgress;
-                document.querySelector('.text-3xl.font-bold').textContent = `${progress}%`;
-                document.querySelector('.bg-white.h-1\\.5').style.width = `${progress}%`;
-                document.querySelector('.text-right p.font-medium').textContent = new Date(data.curriculum.completionDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                const progressTextEl = document.querySelector('[data-field="weekly-progress-text"]');
+                if (progressTextEl) progressTextEl.textContent = `${progress}%`;
+                
+                const progressBarEl = document.querySelector('[data-field="weekly-progress-bar"]');
+                if (progressBarEl) progressBarEl.style.width = `${progress}%`;
+                
+                const dateEl = document.querySelector('[data-field="completion-date"]');
+                if (dateEl) dateEl.textContent = new Date(data.curriculum.completionDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
                 // Update Module Title
-                document.querySelector('.text-lg.font-bold.text-gray-800').textContent = data.curriculum.currentModule;
+                const moduleEl = document.querySelector('[data-field="current-module"]');
+                if (moduleEl) moduleEl.textContent = data.curriculum.currentModule;
 
                 // Update History Count
-                const historyBtn = document.querySelector('button:contains("History")');
+                const historyBtn = document.getElementById('history-btn');
                 if (historyBtn) {
                     historyBtn.textContent = `History (${data.history.conceptsMastered.length})`;
                 }
@@ -39,13 +48,7 @@
                 console.error("Failed to load data", e);
             }
         }
-        window.onload = loadData;
 
-        // Simple helper for selector
-        if (!Element.prototype.matches) {
-            Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
-        }
-        // Polyfill for :contains or manual find
         document.addEventListener('DOMContentLoaded', () => {
              const buttons = document.querySelectorAll('button');
              buttons.forEach(btn => {
@@ -53,6 +56,7 @@
                      btn.id = 'history-btn';
                  }
              });
+             loadData();
         });
     </script>
 </head>
@@ -63,9 +67,9 @@
             <div class="flex justify-between items-center mb-4">
                 <div>
                     <h1 class="text-2xl font-bold">Aasiriyar ELT</h1>
-                    <p class="text-indigo-100 opacity-90">வணக்கம், Sarankan</p>
+                    <p class="text-indigo-100 opacity-90" data-field="user-name">வணக்கம், Sarankan</p>
                 </div>
-                <div class="bg-white/20 px-3 py-1 rounded-full text-sm font-semibold">
+                <div class="bg-white/20 px-3 py-1 rounded-full text-sm font-semibold" data-field="user-rank">
                     Lvl 1 • மாணவர்
                 </div>
             </div>
@@ -73,16 +77,16 @@
             <div class="mt-6 flex items-end justify-between">
                 <div>
                     <p class="text-xs uppercase tracking-wider text-indigo-200 font-semibold mb-1">Weekly Velocity</p>
-                    <p class="text-3xl font-bold">50%</p>
+                    <p class="text-3xl font-bold" data-field="weekly-progress-text">50%</p>
                 </div>
                 <div class="text-right">
                     <p class="text-xs opacity-70">Mastery Target</p>
-                    <p class="font-medium text-sm">March 23, 2026</p>
+                    <p class="font-medium text-sm" data-field="completion-date">March 23, 2026</p>
                 </div>
             </div>
             <!-- Simple Progress Bar -->
             <div class="w-full bg-indigo-900/30 rounded-full h-1.5 mt-4">
-                <div class="bg-white h-1.5 rounded-full" style="width: 50%"></div>
+                <div class="bg-white h-1.5 rounded-full" style="width: 50%" data-field="weekly-progress-bar"></div>
             </div>
         </div>
 
@@ -90,7 +94,7 @@
         <div class="p-6">
             <h2 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-4">Current Module</h2>
             <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
-                <p class="text-lg font-bold text-gray-800">Module 1: The Soul Sounds (Uyir)</p>
+                <p class="text-lg font-bold text-gray-800" data-field="current-module">Module 1: The Soul Sounds (Uyir)</p>
                 <p class="text-sm text-gray-500 mt-1 italic">Building your phonetic foundation.</p>
                 
                 <div class="mt-6 grid grid-cols-4 gap-3">
