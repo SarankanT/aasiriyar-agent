@@ -2,26 +2,14 @@
   "user": {
     "name": "Sarankan",
     "level": 1,
-    "xp": 100,
+    "xp": 150,
     "rank": "மாணவர்",
-    "streak": 0
+    "streak": 1
   },
   "curriculum": {
-    "currentModule": "Module 1: The Soul Sounds (Uyir)",
-    "weeklyProgress": 10,
-    "completionDate": "2026-03-23",
-    "letters": [
-      { "char": "அ", "translit": "a", "status": "mastered" },
-      { "char": "ஆ", "translit": "aa", "status": "mastered" },
-      { "char": "இ", "translit": "i", "status": "current" },
-      { "char": "ஈ", "translit": "ii", "status": "locked" }
-    ],
-    "roadmap": [
-      { "id": 1, "title": "The Soul Sounds (Uyir)", "tier": "Tier 1: Foundations", "status": "active" },
-      { "id": 2, "title": "The Body Sounds (Mei)", "tier": "Tier 1: Foundations", "status": "locked" },
-      { "id": 3, "title": "The Fusion (Uyirmei)", "tier": "Tier 1: Foundations", "status": "locked" },
-      { "id": 4, "title": "Syntactic Architecture", "tier": "Tier 2: Structure", "status": "locked" }
-    ]
+    "currentModule": "Module 2: Strong Consonants (Vallinam)",
+    "weeklyProgress": 20,
+    "completionDate": "2026-04-02"
   },
   "history": {
     "conceptsMastered": [
@@ -39,6 +27,11 @@
         "concept": "Remaining Vowel Pairs (u/uu, e/ee, o/oo, ai, au, ah)",
         "date": "2026-03-23",
         "type": "Macro-Module"
+      },
+      {
+        "concept": "Vallinam (Strong Consonants) in Context",
+        "date": "2026-04-02",
+        "type": "Module"
       }
     ],
     "lessonsCompleted": [
@@ -46,6 +39,11 @@
         "title": "Daily Tamil Byte - side by side",
         "date": "2026-03-17",
         "id": "1483276051239927810"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Vallinam Micro-Dialogue",
+        "date": "2026-04-02",
+        "id": "1489308530132389908"
       }
     ]
   }
