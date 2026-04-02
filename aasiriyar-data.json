@@ -1,0 +1,40 @@
+{
+  "user": {
+    "name": "Sarankan",
+    "level": 1,
+    "xp": 100,
+    "rank": "மாணவர்",
+    "streak": 0
+  },
+  "curriculum": {
+    "currentModule": "Module 1: The Soul Sounds (Uyir)",
+    "weeklyProgress": 10,
+    "completionDate": "2026-03-23"
+  },
+  "history": {
+    "conceptsMastered": [
+      {
+        "concept": "Short Vowel 'a' (அ)",
+        "date": "2026-03-17",
+        "type": "Letter"
+      },
+      {
+        "concept": "Long Vowel 'aa' (ஆ)",
+        "date": "2026-03-17",
+        "type": "Letter"
+      },
+      {
+        "concept": "Remaining Vowel Pairs (u/uu, e/ee, o/oo, ai, au, ah)",
+        "date": "2026-03-23",
+        "type": "Macro-Module"
+      }
+    ],
+    "lessonsCompleted": [
+      {
+        "title": "Daily Tamil Byte - side by side",
+        "date": "2026-03-17",
+        "id": "1483276051239927810"
+      }
+    ]
+  }
+}
