@@ -11,6 +11,50 @@
         .progress-ring { transition: stroke-dashoffset 0.35s; transform: rotate(-90deg); transform-origin: 50% 50%; }
         .letter-card:hover { transform: translateY(-2px); transition: all 0.2s; }
     </style>
+    <script>
+        async function loadData() {
+            try {
+                const response = await fetch('aasiriyar-data.json');
+                const data = await response.json();
+                
+                // Update User Info
+                document.querySelector('p.text-indigo-100').textContent = `வணக்கம், ${data.user.name}`;
+                document.querySelector('.bg-white\\/20').textContent = `Lvl ${data.user.level} • ${data.user.rank}`;
+                
+                // Update Progress
+                const progress = data.curriculum.weeklyProgress;
+                document.querySelector('.text-3xl.font-bold').textContent = `${progress}%`;
+                document.querySelector('.bg-white.h-1\\.5').style.width = `${progress}%`;
+                document.querySelector('.text-right p.font-medium').textContent = new Date(data.curriculum.completionDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+                // Update Module Title
+                document.querySelector('.text-lg.font-bold.text-gray-800').textContent = data.curriculum.currentModule;
+
+                // Update History Count
+                const historyBtn = document.querySelector('button:contains("History")');
+                if (historyBtn) {
+                    historyBtn.textContent = `History (${data.history.conceptsMastered.length})`;
+                }
+            } catch (e) {
+                console.error("Failed to load data", e);
+            }
+        }
+        window.onload = loadData;
+
+        // Simple helper for selector
+        if (!Element.prototype.matches) {
+            Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+        }
+        // Polyfill for :contains or manual find
+        document.addEventListener('DOMContentLoaded', () => {
+             const buttons = document.querySelectorAll('button');
+             buttons.forEach(btn => {
+                 if (btn.textContent.includes('History')) {
+                     btn.id = 'history-btn';
+                 }
+             });
+        });
+    </script>
 </head>
 <body class="p-6">
     <div class="max-w-md mx-auto bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
