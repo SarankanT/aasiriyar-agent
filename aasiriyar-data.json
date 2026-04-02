@@ -9,7 +9,19 @@
   "curriculum": {
     "currentModule": "Module 1: The Soul Sounds (Uyir)",
     "weeklyProgress": 10,
-    "completionDate": "2026-03-23"
+    "completionDate": "2026-03-23",
+    "letters": [
+      { "char": "அ", "translit": "a", "status": "mastered" },
+      { "char": "ஆ", "translit": "aa", "status": "mastered" },
+      { "char": "இ", "translit": "i", "status": "current" },
+      { "char": "ஈ", "translit": "ii", "status": "locked" }
+    ],
+    "roadmap": [
+      { "id": 1, "title": "The Soul Sounds (Uyir)", "tier": "Tier 1: Foundations", "status": "active" },
+      { "id": 2, "title": "The Body Sounds (Mei)", "tier": "Tier 1: Foundations", "status": "locked" },
+      { "id": 3, "title": "The Fusion (Uyirmei)", "tier": "Tier 1: Foundations", "status": "locked" },
+      { "id": 4, "title": "Syntactic Architecture", "tier": "Tier 2: Structure", "status": "locked" }
+    ]
   },
   "history": {
     "conceptsMastered": [

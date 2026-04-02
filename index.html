@@ -39,6 +39,33 @@
                 const moduleEl = document.querySelector('[data-field="current-module"]');
                 if (moduleEl) moduleEl.textContent = data.curriculum.currentModule;
 
+                // Inject Letters
+                const letterGrid = document.getElementById('letter-grid');
+                if (letterGrid && data.curriculum.letters) {
+                    letterGrid.innerHTML = data.curriculum.letters.map(l => `
+                        <div class="${l.status === 'mastered' ? 'bg-green-100 border-green-200 text-green-700' : l.status === 'current' ? 'bg-indigo-600 border-indigo-700 text-white ring-4 ring-indigo-100 letter-card' : 'bg-gray-100 border-gray-200 text-gray-400 opacity-40'} border rounded-xl p-3 flex flex-col items-center justify-center">
+                            <span class="text-2xl font-bold">${l.char}</span>
+                            <span class="text-[10px] font-bold mt-1 uppercase opacity-70">${l.translit}</span>
+                        </div>
+                    `).join('');
+                }
+
+                // Inject Roadmap
+                const roadmap = document.getElementById('curriculum-roadmap');
+                if (roadmap && data.curriculum.roadmap) {
+                    roadmap.innerHTML = data.curriculum.roadmap.map(item => `
+                        <div class="flex items-center gap-4 p-3 rounded-xl border ${item.status === 'completed' ? 'bg-green-50 border-green-100' : item.status === 'active' ? 'bg-white border-indigo-200 shadow-sm' : 'bg-gray-50 border-gray-100 opacity-60'}">
+                            <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${item.status === 'completed' ? 'bg-green-500 text-white' : item.status === 'active' ? 'bg-indigo-600 text-white animate-pulse' : 'bg-gray-200 text-gray-500'}">
+                                ${item.status === 'completed' ? '✓' : item.id}
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-bold text-gray-800 truncate">${item.title}</p>
+                                <p class="text-[10px] text-gray-500 uppercase tracking-wider font-medium">${item.tier}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
                 // Update History Count
                 const historyBtn = document.getElementById('history-btn');
                 if (historyBtn) {
@@ -97,26 +124,16 @@
                 <p class="text-lg font-bold text-gray-800" data-field="current-module">Module 1: The Soul Sounds (Uyir)</p>
                 <p class="text-sm text-gray-500 mt-1 italic">Building your phonetic foundation.</p>
                 
-                <div class="mt-6 grid grid-cols-4 gap-3">
-                    <!-- Mastered -->
-                    <div class="bg-green-100 border border-green-200 rounded-xl p-3 flex flex-col items-center justify-center opacity-100 grayscale-0">
-                        <span class="text-2xl font-bold text-green-700">அ</span>
-                        <span class="text-[10px] text-green-600 font-bold mt-1 uppercase">A</span>
-                    </div>
-                    <div class="bg-green-100 border border-green-200 rounded-xl p-3 flex flex-col items-center justify-center">
-                        <span class="text-2xl font-bold text-green-700">ஆ</span>
-                        <span class="text-[10px] text-green-600 font-bold mt-1 uppercase">AA</span>
-                    </div>
-                    <!-- Current Target -->
-                    <div class="bg-indigo-600 border border-indigo-700 rounded-xl p-3 flex flex-col items-center justify-center ring-4 ring-indigo-100 letter-card">
-                        <span class="text-2xl font-bold text-white">இ</span>
-                        <span class="text-[10px] text-indigo-100 font-bold mt-1 uppercase">I</span>
-                    </div>
-                    <!-- Locked / Next -->
-                    <div class="bg-gray-100 border border-gray-200 rounded-xl p-3 flex flex-col items-center justify-center opacity-40">
-                        <span class="text-2xl font-bold text-gray-400">ஈ</span>
-                        <span class="text-[10px] text-gray-400 font-bold mt-1 uppercase">II</span>
-                    </div>
+                <div class="mt-6 grid grid-cols-4 gap-3" id="letter-grid">
+                    <!-- Letters will be injected here -->
+                </div>
+            </div>
+
+            <!-- Curriculum Visualization -->
+            <div class="mt-8">
+                <h2 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-4">Mastery Roadmap</h2>
+                <div class="space-y-3" id="curriculum-roadmap">
+                    <!-- Roadmap items will be injected here -->
                 </div>
             </div>
 
