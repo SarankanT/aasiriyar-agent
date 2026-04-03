@@ -71,6 +71,12 @@
                 if (historyBtn) {
                     historyBtn.textContent = `History (${data.history.conceptsMastered.length})`;
                 }
+
+                // Update Stats
+                const statsBtn = document.getElementById('stats-btn');
+                if (statsBtn) {
+                    statsBtn.textContent = `Stats (XP: ${data.user.xp})`;
+                }
             } catch (e) {
                 console.error("Failed to load data", e);
             }
@@ -81,6 +87,9 @@
              buttons.forEach(btn => {
                  if (btn.textContent.includes('History')) {
                      btn.id = 'history-btn';
+                 }
+                 if (btn.textContent.includes('Stats')) {
+                     btn.id = 'stats-btn';
                  }
              });
              loadData();
