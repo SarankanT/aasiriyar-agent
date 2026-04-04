@@ -75,7 +75,23 @@
                 // Update Stats
                 const statsBtn = document.getElementById('stats-btn');
                 if (statsBtn) {
-                    statsBtn.textContent = `Stats (XP: ${data.user.xp})`;
+                    statsBtn.innerHTML = `XP: <span class="font-bold text-indigo-600">${data.user.xp}</span>`;
+                }
+
+                // Inject XP Progress Bar (New Feature)
+                const xpContainer = document.getElementById('xp-progress-container');
+                if (xpContainer) {
+                    const xpNextLevel = (data.user.level * 1000);
+                    const xpPercent = Math.min(100, (data.user.xp / xpNextLevel) * 100);
+                    xpContainer.innerHTML = `
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Next Level</span>
+                            <span class="text-[10px] font-bold text-indigo-600">${data.user.xp} / ${xpNextLevel} XP</span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-1">
+                            <div class="bg-indigo-500 h-1 rounded-full transition-all duration-1000" style="width: ${xpPercent}%"></div>
+                        </div>
+                    `;
                 }
             } catch (e) {
                 console.error("Failed to load data", e);
@@ -110,6 +126,10 @@
                 </div>
             </div>
             
+            <div id="xp-progress-container" class="mt-4 mb-2 bg-indigo-900/10 p-2 rounded-xl">
+                <!-- XP progress injected via script -->
+            </div>
+
             <div class="mt-6 flex items-end justify-between">
                 <div>
                     <p class="text-xs uppercase tracking-wider text-indigo-200 font-semibold mb-1">Weekly Velocity</p>
