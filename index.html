@@ -48,6 +48,21 @@
                             <span class="text-[10px] font-bold mt-1 uppercase opacity-70">${l.translit}</span>
                         </div>
                     `).join('');
+                } else if (letterGrid && data.history && data.history.conceptsMastered) {
+                    // Fallback to conceptsMastered if no direct letters provided
+                    const mastered = data.history.conceptsMastered.filter(c => c.type === 'Letter').slice(-4);
+                    letterGrid.innerHTML = mastered.map(l => {
+                        const charMatch = l.concept.match(/\((.*?)\)/);
+                        const char = charMatch ? charMatch[1] : '?';
+                        const translitMatch = l.concept.match(/'(.*?)'/);
+                        const translit = translitMatch ? translitMatch[1] : '';
+                        return `
+                            <div class="bg-green-100 border-green-200 text-green-700 border rounded-xl p-3 flex flex-col items-center justify-center">
+                                <span class="text-2xl font-bold">${char}</span>
+                                <span class="text-[10px] font-bold mt-1 uppercase opacity-70">${translit}</span>
+                            </div>
+                        `;
+                    }).join('');
                 }
 
                 // Inject Roadmap
@@ -61,6 +76,20 @@
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm font-bold text-gray-800 truncate">${item.title}</p>
                                 <p class="text-[10px] text-gray-500 uppercase tracking-wider font-medium">${item.tier}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                } else if (roadmap && data.history && data.history.conceptsMastered) {
+                    // Dynamic roadmap from history
+                    const items = data.history.conceptsMastered.slice(-3).reverse();
+                    roadmap.innerHTML = items.map((item, idx) => `
+                        <div class="flex items-center gap-4 p-3 rounded-xl border bg-green-50 border-green-100">
+                            <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-green-500 text-white">
+                                ✓
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-bold text-gray-800 truncate">${item.concept}</p>
+                                <p class="text-[10px] text-gray-500 uppercase tracking-wider font-medium">${item.type}</p>
                             </div>
                         </div>
                     `).join('');
