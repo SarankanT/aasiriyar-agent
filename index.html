@@ -23,6 +23,9 @@
                 
                 const rankEl = document.querySelector('[data-field="user-rank"]');
                 if (rankEl) rankEl.textContent = `Lvl ${data.user.level} • ${data.user.rank}`;
+
+                const streakEl = document.querySelector('[data-field="user-streak"]');
+                if (streakEl) streakEl.textContent = `${data.user.streak}🔥`;
                 
                 // Update Progress
                 const progress = data.curriculum.weeklyProgress;
@@ -150,8 +153,13 @@
                     <h1 class="text-2xl font-bold">Aasiriyar ELT</h1>
                     <p class="text-indigo-100 opacity-90" data-field="user-name">வணக்கம், Sarankan</p>
                 </div>
-                <div class="bg-white/20 px-3 py-1 rounded-full text-sm font-semibold" data-field="user-rank">
-                    Lvl 1 • மாணவர்
+                <div class="flex flex-col items-end gap-1">
+                    <div class="bg-white/20 px-3 py-1 rounded-full text-sm font-semibold" data-field="user-rank">
+                        Lvl 1 • மாணவர்
+                    </div>
+                    <div class="text-xs font-bold bg-orange-400/30 px-2 py-0.5 rounded-lg text-orange-100" data-field="user-streak">
+                        1🔥
+                    </div>
                 </div>
             </div>
             
