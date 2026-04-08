@@ -10,6 +10,7 @@
         body { font-family: 'Inter', sans-serif; background-color: #f9fafb; }
         .progress-ring { transition: stroke-dashoffset 0.35s; transform: rotate(-90deg); transform-origin: 50% 50%; }
         .letter-card:hover { transform: translateY(-2px); transition: all 0.2s; }
+        .stat-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
     <script>
         async function loadData() {
@@ -167,18 +168,19 @@
                 <!-- XP progress injected via script -->
             </div>
 
-            <div class="mt-6 flex items-end justify-between">
-                <div>
-                    <p class="text-xs uppercase tracking-wider text-indigo-200 font-semibold mb-1">Weekly Velocity</p>
-                    <p class="text-3xl font-bold" data-field="weekly-progress-text">50%</p>
+            <div class="mt-6 grid grid-cols-2 gap-3 mb-2">
+                <div class="stat-card p-3 rounded-2xl">
+                    <p class="text-[10px] uppercase tracking-widest text-indigo-200 font-bold">Weekly Velocity</p>
+                    <p class="text-2xl font-bold" data-field="weekly-progress-text">50%</p>
                 </div>
-                <div class="text-right">
-                    <p class="text-xs opacity-70">Mastery Target</p>
-                    <p class="font-medium text-sm" data-field="completion-date">March 23, 2026</p>
+                <div class="stat-card p-3 rounded-2xl text-right">
+                    <p class="text-[10px] uppercase tracking-widest text-indigo-200 font-bold">Mastery Target</p>
+                    <p class="text-xs font-bold mt-1" data-field="completion-date">March 23, 2026</p>
                 </div>
             </div>
+
             <!-- Simple Progress Bar -->
-            <div class="w-full bg-indigo-900/30 rounded-full h-1.5 mt-4">
+            <div class="w-full bg-indigo-900/30 rounded-full h-1.5 mt-2">
                 <div class="bg-white h-1.5 rounded-full" style="width: 50%" data-field="weekly-progress-bar"></div>
             </div>
         </div>
