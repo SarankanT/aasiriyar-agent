@@ -71,29 +71,33 @@
 
                 // Inject Roadmap
                 const roadmap = document.getElementById('curriculum-roadmap');
-                if (roadmap && data.curriculum.roadmap) {
-                    roadmap.innerHTML = data.curriculum.roadmap.map(item => `
+                if (roadmap) {
+                    // Combine explicitly provided roadmap with history for a "Mastery Path" view
+                    let items = [];
+                    if (data.curriculum.roadmap) {
+                        items = data.curriculum.roadmap;
+                    } else if (data.history && data.history.conceptsMastered) {
+                        // Dynamic roadmap from history + "Current" placeholder
+                        const mastered = data.history.conceptsMastered.slice(-3).reverse().map(item => ({
+                            title: item.concept,
+                            tier: item.type,
+                            status: 'completed'
+                        }));
+                        
+                        items = [
+                            { title: data.curriculum.currentModule, tier: 'Active Module', status: 'active', id: '→' },
+                            ...mastered
+                        ];
+                    }
+
+                    roadmap.innerHTML = items.map((item, idx) => `
                         <div class="flex items-center gap-4 p-3 rounded-xl border ${item.status === 'completed' ? 'bg-green-50 border-green-100' : item.status === 'active' ? 'bg-white border-indigo-200 shadow-sm' : 'bg-gray-50 border-gray-100 opacity-60'}">
                             <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${item.status === 'completed' ? 'bg-green-500 text-white' : item.status === 'active' ? 'bg-indigo-600 text-white animate-pulse' : 'bg-gray-200 text-gray-500'}">
-                                ${item.status === 'completed' ? '✓' : item.id}
+                                ${item.status === 'completed' ? '✓' : (item.id || idx + 1)}
                             </div>
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm font-bold text-gray-800 truncate">${item.title}</p>
                                 <p class="text-[10px] text-gray-500 uppercase tracking-wider font-medium">${item.tier}</p>
-                            </div>
-                        </div>
-                    `).join('');
-                } else if (roadmap && data.history && data.history.conceptsMastered) {
-                    // Dynamic roadmap from history
-                    const items = data.history.conceptsMastered.slice(-3).reverse();
-                    roadmap.innerHTML = items.map((item, idx) => `
-                        <div class="flex items-center gap-4 p-3 rounded-xl border bg-green-50 border-green-100">
-                            <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-green-500 text-white">
-                                ✓
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm font-bold text-gray-800 truncate">${item.concept}</p>
-                                <p class="text-[10px] text-gray-500 uppercase tracking-wider font-medium">${item.type}</p>
                             </div>
                         </div>
                     `).join('');
@@ -226,8 +230,8 @@
 
             <!-- Next Steps -->
             <div class="mt-8 space-y-4">
-                <button class="w-full py-4 px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold transition-all shadow-lg shadow-indigo-100 flex items-center justify-center gap-2">
-                    <span>Start Macro-Module 1 (Part 2)</span>
+                <button class="w-full py-4 px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold transition-all shadow-lg shadow-indigo-100 flex items-center justify-center gap-2" onclick="alert('Starting lesson...')">
+                    <span>Continue Journey</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
                     </svg>
