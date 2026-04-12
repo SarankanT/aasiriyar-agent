@@ -16,12 +16,14 @@
       {
         "concept": "Short Vowel 'a' (அ)",
         "date": "2026-03-17",
-        "type": "Letter"
+        "type": "Letter",
+        "description": "The first sound of the Tamil alphabet. Represented by 'அ', it is a short, neutral vowel sound found in words like 'அம்மா' (Amma)."
       },
       {
         "concept": "Long Vowel 'aa' (ஆ)",
         "date": "2026-03-17",
-        "type": "Letter"
+        "type": "Letter",
+        "description": "The long version of 'a'. Written as 'ஆ', it requires a longer breath and is central to words like 'ஆடு' (Aadu)."
       },
       {
         "concept": "Remaining Vowel Pairs (u/uu, e/ee, o/oo, ai, au, ah)",
