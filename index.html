@@ -42,6 +42,24 @@
                 const moduleEl = document.querySelector('[data-field="current-module"]');
                 if (moduleEl) moduleEl.textContent = data.curriculum.currentModule;
 
+                // Update Lessons Completed (New Section)
+                const lessonsContainer = document.getElementById('lessons-list');
+                if (lessonsContainer && data.history.lessonsCompleted) {
+                    lessonsContainer.innerHTML = data.history.lessonsCompleted.slice(-2).map(lesson => `
+                        <div class="flex items-center justify-between p-3 bg-white border border-gray-100 rounded-xl mb-2">
+                            <div class="flex flex-col">
+                                <span class="text-xs font-bold text-gray-800">${lesson.title}</span>
+                                <span class="text-[10px] text-gray-400">${new Date(lesson.date).toLocaleDateString()}</span>
+                            </div>
+                            <div class="bg-indigo-50 text-indigo-600 p-1.5 rounded-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
                 // Inject Letters
                 const letterGrid = document.getElementById('letter-grid');
                 if (letterGrid && data.curriculum.letters) {
@@ -192,6 +210,14 @@
                 
                 <div class="mt-6 grid grid-cols-4 gap-3" id="letter-grid">
                     <!-- Letters will be injected here -->
+                </div>
+            </div>
+
+            <!-- Recent Lessons (New Feature) -->
+            <div class="mt-8">
+                <h2 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-4">Recent Lessons</h2>
+                <div id="lessons-list">
+                    <!-- Lessons will be injected here -->
                 </div>
             </div>
 

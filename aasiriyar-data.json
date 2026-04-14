@@ -9,7 +9,13 @@
   "curriculum": {
     "currentModule": "Module 2: Strong Consonants (Vallinam)",
     "weeklyProgress": 20,
-    "completionDate": "2026-04-02"
+    "completionDate": "2026-04-14",
+    "letters": [
+      { "char": "க்", "translit": "k", "status": "mastered" },
+      { "char": "ச்", "translit": "c", "status": "mastered" },
+      { "char": "ட்", "translit": "t", "status": "current" },
+      { "char": "த்", "translit": "th", "status": "locked" }
+    ]
   },
   "history": {
     "conceptsMastered": [
