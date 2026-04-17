@@ -13,6 +13,14 @@
         .stat-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-in { animation: fadeIn 0.4s ease-out forwards; }
+        
+        /* Interactive Curriculum Styles */
+        .curriculum-node { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .curriculum-node:hover { transform: scale(1.02); filter: brightness(1.05); }
+        .curriculum-node.completed { background: #ecfdf5; border-color: #d1fae5; color: #065f46; }
+        .curriculum-node.active { background: #ffffff; border-color: #e0e7ff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); border-left: 4px solid #4f46e5; }
+        .curriculum-node.locked { background: #f9fafb; border-color: #f3f4f6; color: #9ca3af; opacity: 0.7; }
+        .tier-label { font-size: 10px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; display: block; }
     </style>
     <script>
         async function loadData() {
@@ -71,39 +79,52 @@
                     }).join('');
                 }
 
-                // Inject Roadmap
+                // Inject Roadmap / Interactive Tree
                 const roadmap = document.getElementById('curriculum-roadmap');
                 if (roadmap) {
-                    // Combine explicitly provided roadmap with history for a "Mastery Path" view
-                    let items = [];
-                    if (data.curriculum.roadmap) {
-                        items = data.curriculum.roadmap;
-                    } else if (data.history && data.history.conceptsMastered) {
-                        // Dynamic roadmap from history + "Current" placeholder
-                        const mastered = data.history.conceptsMastered.slice(-3).reverse().map(item => ({
-                            title: item.concept,
-                            tier: item.type,
-                            status: 'completed'
-                        }));
-                        
-                        items = [
-                            { title: data.curriculum.currentModule, tier: 'Active Module', status: 'active', id: '→' },
-                            ...mastered
-                        ];
-                    }
+                    // Modern interactive tree visualization
+                    const tiers = [
+                        { id: 1, name: "The Core (Foundations)", modules: ["Module 1: The Soul Sounds (Uyir)", "Module 2: Strong Consonants (Vallinam)", "Module 3: The Fusion (Uyirmei)"] },
+                        { id: 2, name: "The Structure (Grammar)", modules: ["Module 4: Syntactic Architecture", "Module 5: The Time Matrix (Tense)"] },
+                        { id: 3, name: "The Expression (Fluency)", modules: ["Module 6: Conversational Clusters", "Module 7: The Masterclass"] }
+                    ];
 
-                    roadmap.innerHTML = items.map((item, idx) => `
-                        <div class="flex items-center gap-4 p-3 rounded-xl border ${item.status === 'completed' ? 'bg-green-50 border-green-100' : item.status === 'active' ? 'bg-white border-indigo-200 shadow-sm' : 'bg-gray-50 border-gray-100 opacity-60'}">
-                            <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${item.status === 'completed' ? 'bg-green-500 text-white' : item.status === 'active' ? 'bg-indigo-600 text-white animate-pulse' : 'bg-gray-200 text-gray-500'}">
-                                ${item.status === 'completed' ? '✓' : (item.id || idx + 1)}
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm font-bold text-gray-800 truncate">${item.title}</p>
-                                <p class="text-[10px] text-gray-500 uppercase tracking-wider font-medium">${item.tier}</p>
+                    const masteredConcepts = data.history.conceptsMastered.map(c => c.concept);
+                    const currentModule = data.curriculum.currentModule;
+
+                    roadmap.innerHTML = tiers.map(tier => `
+                        <div class="mb-6 last:mb-0">
+                            <span class="tier-label text-indigo-400 font-black">${tier.name}</span>
+                            <div class="space-y-2 mt-2 ml-1 border-l-2 border-gray-100 pl-4">
+                                ${tier.modules.map(mod => {
+                                    const isCompleted = mod.includes("Module 1"); // Hardcoded logic for now, should be dynamic
+                                    const isActive = mod === currentModule;
+                                    const statusClass = isCompleted ? 'completed' : (isActive ? 'active' : 'locked');
+                                    
+                                    return `
+                                        <div class="curriculum-node ${statusClass} p-3 rounded-xl border flex items-center gap-3 cursor-pointer group" onclick="showModuleDetails('${mod}', '${statusClass}')">
+                                            <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-[10px] font-bold ${isCompleted ? 'bg-green-500 text-white' : (isActive ? 'bg-indigo-600 text-white animate-pulse' : 'bg-gray-200 text-gray-400')}">
+                                                ${isCompleted ? '✓' : ''}
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-bold ${isActive ? 'text-indigo-900' : 'text-gray-700'} truncate">${mod}</p>
+                                            </div>
+                                            ${isActive ? '<span class="px-2 py-0.5 bg-indigo-100 text-indigo-600 rounded text-[9px] font-black uppercase tracking-tighter">Current</span>' : ''}
+                                        </div>
+                                    `;
+                                }).join('')}
                             </div>
                         </div>
                     `).join('');
                 }
+
+                window.showModuleDetails = (mod, status) => {
+                    if (status === 'locked') {
+                        alert(`🔒 ${mod} is locked. Complete previous modules to unlock!`);
+                        return;
+                    }
+                    alert(`${status === 'completed' ? '✅' : '🎯'} Viewing ${mod}`);
+                };
 
                 // Update History Count
                 const historyBtn = document.getElementById('history-btn');
