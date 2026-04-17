@@ -97,7 +97,11 @@
                             <span class="tier-label text-indigo-400 font-black">${tier.name}</span>
                             <div class="space-y-2 mt-2 ml-1 border-l-2 border-gray-100 pl-4">
                                 ${tier.modules.map(mod => {
-                                    const isCompleted = mod.includes("Module 1"); // Hardcoded logic for now, should be dynamic
+                                    // Robust dynamic status check:
+                                    // 1. Completed if it matches a 'Module' type entry in mastery history
+                                    // 2. Active if it matches data.curriculum.currentModule
+                                    // 3. Otherwise locked
+                                    const isCompleted = data.history.conceptsMastered.some(c => c.type === 'Module' && mod.includes(c.concept.split('(')[0].trim()));
                                     const isActive = mod === currentModule;
                                     const statusClass = isCompleted ? 'completed' : (isActive ? 'active' : 'locked');
                                     
