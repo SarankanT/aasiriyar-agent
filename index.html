@@ -9,8 +9,10 @@
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f9fafb; transition: background-color 0.3s ease; }
         body.dark { background-color: #111827; }
+        .dark .main-container { background-color: #1f2937; border-color: #374151; }
         .dark .bg-white { background-color: #1f2937; border-color: #374151; }
         .dark .text-gray-800 { color: #f3f4f6; }
+        .dark .text-gray-700 { color: #e5e7eb; }
         .dark .text-gray-500 { color: #9ca3af; }
         .dark .text-gray-400 { color: #6b7280; }
         .dark .bg-gray-50 { background-color: #111827; border-color: #374151; }
@@ -18,6 +20,9 @@
         .dark .border-gray-100 { border-color: #374151; }
         .dark .border-gray-200 { border-color: #4b5563; }
         .dark .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5); }
+        .dark .letter-card.bg-gray-100 { background-color: #374151; color: #9ca3af; }
+        .dark #curriculum-roadmap .bg-white { background-color: #374151; border-color: #4b5563; }
+        
         .progress-ring { transition: stroke-dashoffset 0.35s; transform: rotate(-90deg); transform-origin: 50% 50%; }
         .letter-card:hover { transform: translateY(-2px); transition: all 0.2s; }
         .stat-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
@@ -37,11 +42,15 @@
             document.body.classList.toggle('dark');
             const isDark = document.body.classList.contains('dark');
             localStorage.setItem('darkMode', isDark);
+            const btn = document.getElementById('theme-toggle-icon');
+            if (btn) btn.innerHTML = isDark ? '☀️' : '🌙';
         }
 
         async function loadData() {
             if (localStorage.getItem('darkMode') === 'true') {
                 document.body.classList.add('dark');
+                const btn = document.getElementById('theme-toggle-icon');
+                if (btn) btn.innerHTML = '☀️';
             }
             try {
                 const response = await fetch('aasiriyar-data.json');
@@ -101,36 +110,30 @@
                 // Inject Roadmap / Interactive Tree
                 const roadmap = document.getElementById('curriculum-roadmap');
                 if (roadmap) {
-                    // Modern interactive tree visualization
                     const tiers = [
                         { id: 1, name: "The Core (Foundations)", modules: ["Module 1: The Soul Sounds (Uyir)", "Module 2: Strong Consonants (Vallinam)", "Module 3: The Fusion (Uyirmei)"] },
                         { id: 2, name: "The Structure (Grammar)", modules: ["Module 4: Syntactic Architecture", "Module 5: The Time Matrix (Tense)"] },
                         { id: 3, name: "The Expression (Fluency)", modules: ["Module 6: Conversational Clusters", "Module 7: The Masterclass"] }
                     ];
 
-                    const masteredConcepts = data.history.conceptsMastered.map(c => c.concept);
                     const currentModule = data.curriculum.currentModule;
 
                     roadmap.innerHTML = tiers.map(tier => `
                         <div class="mb-6 last:mb-0">
                             <span class="tier-label text-indigo-400 font-black">${tier.name}</span>
-                            <div class="space-y-2 mt-2 ml-1 border-l-2 border-gray-100 pl-4">
+                            <div class="space-y-2 mt-2 ml-1 border-l-2 border-gray-100 dark:border-gray-800 pl-4">
                                 ${tier.modules.map(mod => {
-                                    // Robust dynamic status check:
-                                    // 1. Completed if it matches a 'Module' type entry in mastery history
-                                    // 2. Active if it matches data.curriculum.currentModule
-                                    // 3. Otherwise locked
                                     const isCompleted = data.history.conceptsMastered.some(c => c.type === 'Module' && mod.includes(c.concept.split('(')[0].trim()));
                                     const isActive = mod === currentModule;
                                     const statusClass = isCompleted ? 'completed' : (isActive ? 'active' : 'locked');
                                     
                                     return `
-                                        <div class="curriculum-node ${statusClass} p-3 rounded-xl border flex items-center gap-3 cursor-pointer group" onclick="showModuleDetails('${mod}', '${statusClass}')">
-                                            <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-[10px] font-bold ${isCompleted ? 'bg-green-500 text-white' : (isActive ? 'bg-indigo-600 text-white animate-pulse' : 'bg-gray-200 text-gray-400')}">
+                                        <div class="curriculum-node ${statusClass} p-3 rounded-xl border flex items-center gap-3 cursor-pointer group dark:bg-gray-800 dark:border-gray-700" onclick="showModuleDetails('${mod}', '${statusClass}')">
+                                            <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-[10px] font-bold ${isCompleted ? 'bg-green-500 text-white' : (isActive ? 'bg-indigo-600 text-white animate-pulse' : 'bg-gray-200 text-gray-400 dark:bg-gray-700')}">
                                                 ${isCompleted ? '✓' : ''}
                                             </div>
                                             <div class="flex-1 min-w-0">
-                                                <p class="text-sm font-bold ${isActive ? 'text-indigo-900' : 'text-gray-700'} truncate">${mod}</p>
+                                                <p class="text-sm font-bold ${isActive ? 'text-indigo-900 dark:text-indigo-100' : 'text-gray-700 dark:text-gray-300'} truncate">${mod}</p>
                                             </div>
                                             ${isActive ? '<span class="px-2 py-0.5 bg-indigo-100 text-indigo-600 rounded text-[9px] font-black uppercase tracking-tighter">Current</span>' : ''}
                                         </div>
@@ -156,57 +159,37 @@
                     historyBtn.onclick = () => {
                         const roadmap = document.getElementById('curriculum-roadmap');
                         const roadmapHeader = roadmap.previousElementSibling;
-                        
-                        // Scroll to roadmap for better visibility
                         roadmap.scrollIntoView({ behavior: 'smooth' });
-                        
                         roadmapHeader.textContent = "Concepts Mastered History";
                         roadmap.innerHTML = data.history.conceptsMastered.slice().reverse().map((item, idx) => `
-                            <div class="flex items-center gap-4 p-4 rounded-2xl border bg-white border-gray-100 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer group mb-3 last:mb-0" onclick="showConceptDetails(${JSON.stringify(item).replace(/"/g, '&quot;')})">
-                                <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-sm">
-                                    <span class="text-xs font-bold">${item.type === 'Letter' ? ' Tamil' : '📚 Item'}</span>
+                            <div class="flex items-center gap-4 p-4 rounded-2xl border bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-500 hover:shadow-md transition-all cursor-pointer group mb-3 last:mb-0" onclick="showConceptDetails(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-sm">
+                                    <span class="text-[10px] font-bold">${item.type === 'Letter' ? '🔤' : '📚'}</span>
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-bold text-gray-800 truncate group-hover:text-indigo-700 transition-colors">${item.concept}</p>
+                                    <p class="text-sm font-bold text-gray-800 dark:text-gray-100 truncate group-hover:text-indigo-700 dark:group-hover:text-indigo-400 transition-colors">${item.concept}</p>
                                     <div class="flex justify-between items-center mt-0.5">
                                         <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">${item.type}</p>
-                                        <p class="text-[9px] text-gray-300 font-bold font-mono">${item.date}</p>
+                                        <p class="text-[9px] text-gray-300 dark:text-gray-600 font-bold font-mono">${item.date}</p>
                                     </div>
-                                </div>
-                                <div class="text-indigo-200 group-hover:text-indigo-500">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
-                                    </svg>
                                 </div>
                             </div>
                         `).join('');
                     };
                 }
 
-                // Global function for concept details
                 window.showConceptDetails = (item) => {
                     const overlay = document.createElement('div');
                     overlay.className = "fixed inset-0 bg-indigo-950/40 backdrop-blur-sm z-50 flex items-center justify-center p-6";
                     overlay.innerHTML = `
-                        <div class="bg-white rounded-3xl w-full max-w-xs overflow-hidden shadow-2xl animate-in zoom-in duration-200">
+                        <div class="bg-white dark:bg-gray-900 rounded-3xl w-full max-w-xs overflow-hidden shadow-2xl animate-in zoom-in duration-200">
                             <div class="p-8 text-center">
-                                <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl">
+                                <div class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl">
                                     ${item.concept.includes('(') ? item.concept.match(/\((.*?)\)/)[1] : '📖'}
                                 </div>
-                                <h3 class="text-xl font-bold text-gray-800 mb-1">${item.concept}</h3>
+                                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-1">${item.concept}</h3>
                                 <p class="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-6">${item.type}</p>
-                                <div class="bg-gray-50 rounded-2xl p-4 text-left border border-gray-100 mb-6">
-                                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Mastery Record</p>
-                                    <div class="flex justify-between items-center text-sm">
-                                        <span class="text-gray-600">Achieved on</span>
-                                        <span class="font-bold text-gray-800">${item.date}</span>
-                                    </div>
-                                    <div class="flex justify-between items-center text-sm mt-2">
-                                        <span class="text-gray-600">Status</span>
-                                        <span class="font-bold text-green-600">✓ Fully Mastered</span>
-                                    </div>
-                                </div>
-                                <button onclick="this.closest('.fixed').remove()" class="w-full py-3 bg-gray-900 text-white rounded-xl font-bold hover:bg-black transition-colors">Close View</button>
+                                <button onclick="this.closest('.fixed').remove()" class="w-full py-3 bg-gray-900 dark:bg-indigo-600 text-white rounded-xl font-bold hover:bg-black transition-colors">Close</button>
                             </div>
                         </div>
                     `;
@@ -216,10 +199,10 @@
                 // Update Stats
                 const statsBtn = document.getElementById('stats-btn');
                 if (statsBtn) {
-                    statsBtn.innerHTML = `XP: <span class="font-bold text-indigo-600">${data.user.xp}</span>`;
+                    statsBtn.innerHTML = `XP: <span class="font-bold text-indigo-600 dark:text-indigo-400">${data.user.xp}</span>`;
                 }
 
-                // Inject XP Progress Bar (New Feature)
+                // Inject XP Progress Bar
                 const xpContainer = document.getElementById('xp-progress-container');
                 if (xpContainer) {
                     const xpNextLevel = (data.user.level * 1000);
@@ -227,9 +210,9 @@
                     xpContainer.innerHTML = `
                         <div class="flex justify-between items-center mb-1">
                             <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Next Level</span>
-                            <span class="text-[10px] font-bold text-indigo-600">${data.user.xp} / ${xpNextLevel} XP</span>
+                            <span class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400">${data.user.xp} / ${xpNextLevel} XP</span>
                         </div>
-                        <div class="w-full bg-gray-100 rounded-full h-1">
+                        <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-1">
                             <div class="bg-indigo-500 h-1 rounded-full transition-all duration-1000" style="width: ${xpPercent}%"></div>
                         </div>
                     `;
@@ -242,31 +225,25 @@
         document.addEventListener('DOMContentLoaded', () => {
              const buttons = document.querySelectorAll('button');
              buttons.forEach(btn => {
-                 if (btn.textContent.includes('History')) {
-                     btn.id = 'history-btn';
-                 }
-                 if (btn.textContent.includes('Stats')) {
-                     btn.id = 'stats-btn';
-                 }
+                 if (btn.textContent.includes('History')) btn.id = 'history-btn';
+                 if (btn.textContent.includes('Stats')) btn.id = 'stats-btn';
              });
              loadData();
         });
     </script>
 </head>
 <body class="p-6">
-    <div class="max-w-md mx-auto bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="max-w-md mx-auto bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden main-container">
         <!-- Header / User Info -->
-        <div class="p-6 bg-gradient-to-br from-indigo-600 to-violet-700 text-white">
+        <div class="p-6 bg-gradient-to-br from-indigo-600 to-violet-700 text-white relative">
             <div class="flex justify-between items-center mb-4">
                 <div>
                     <h1 class="text-2xl font-bold">Aasiriyar ELT</h1>
                     <p class="text-indigo-100 opacity-90" data-field="user-name">வணக்கம், Sarankan</p>
                 </div>
                 <div class="flex flex-col items-end gap-1">
-                    <button onclick="toggleDarkMode()" class="p-1 rounded-lg bg-white/20 hover:bg-white/30 transition-colors mb-1" title="Toggle Dark Mode">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                        </svg>
+                    <button onclick="toggleDarkMode()" class="p-1.5 rounded-lg bg-white/20 hover:bg-white/30 transition-colors mb-1" title="Toggle Dark Mode">
+                        <span id="theme-toggle-icon" class="text-xs">🌙</span>
                     </button>
                     <div class="bg-white/20 px-3 py-1 rounded-full text-sm font-semibold" data-field="user-rank">
                         Lvl 1 • மாணவர்
@@ -292,7 +269,6 @@
                 </div>
             </div>
 
-            <!-- Simple Progress Bar -->
             <div class="w-full bg-indigo-900/30 rounded-full h-1.5 mt-2">
                 <div class="bg-white h-1.5 rounded-full" style="width: 50%" data-field="weekly-progress-bar"></div>
             </div>
@@ -301,8 +277,8 @@
         <!-- Current Module Section -->
         <div class="p-6">
             <h2 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-4">Current Module</h2>
-            <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
-                <p class="text-lg font-bold text-gray-800" data-field="current-module">Module 1: The Soul Sounds (Uyir)</p>
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 border border-gray-100 dark:border-gray-700">
+                <p class="text-lg font-bold text-gray-800 dark:text-gray-100" data-field="current-module">Module 1: The Soul Sounds (Uyir)</p>
                 <p class="text-sm text-gray-500 mt-1 italic">Building your phonetic foundation.</p>
                 
                 <div class="mt-6 grid grid-cols-4 gap-3" id="letter-grid">
@@ -327,19 +303,19 @@
                     </svg>
                 </button>
                 <div class="flex gap-3">
-                    <button class="flex-1 py-3 px-4 bg-gray-50 text-gray-600 rounded-xl text-sm font-semibold border border-gray-100 hover:bg-gray-100 transition-colors">History</button>
-                    <button class="flex-1 py-3 px-4 bg-gray-50 text-gray-600 rounded-xl text-sm font-semibold border border-gray-100 hover:bg-gray-100 transition-colors">Stats</button>
+                    <button class="flex-1 py-3 px-4 bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-xl text-sm font-semibold border border-gray-100 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">History</button>
+                    <button class="flex-1 py-3 px-4 bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-xl text-sm font-semibold border border-gray-100 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Stats</button>
                 </div>
             </div>
         </div>
 
         <!-- Bottom Status -->
-        <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+        <div class="px-6 py-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                 <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">System Live</span>
             </div>
-            <span class="text-[10px] text-gray-400 font-medium">Aasiriyar.ai v1.0 • Macro-Sprint active</span>
+            <span class="text-[10px] text-gray-400 font-medium">Aasiriyar.ai v1.1 • Macro-Sprint active</span>
         </div>
     </div>
 </body>
