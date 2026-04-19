@@ -36,6 +36,13 @@
         .curriculum-node.active { background: #ffffff; border-color: #e0e7ff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); border-left: 4px solid #4f46e5; }
         .curriculum-node.locked { background: #f9fafb; border-color: #f3f4f6; color: #9ca3af; opacity: 0.7; }
         .tier-label { font-size: 10px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; display: block; }
+        
+        /* Search Bar Styles */
+        #search-container { position: sticky; top: 0; z-index: 10; background: inherit; }
+        .search-input { width: 100%; padding: 0.75rem 1rem 0.75rem 2.5rem; border-radius: 1rem; border: 1px solid #e5e7eb; font-size: 0.875rem; transition: all 0.2s; }
+        .search-input:focus { outline: none; border-color: #4f46e5; ring: 2px solid #e0e7ff; }
+        .dark .search-input { background: #111827; border-color: #374151; color: #f3f4f6; }
+        .search-icon { position: absolute; left: 0.875rem; top: 50%; transform: translateY(-50%); pointer-events: none; }
     </style>
     <script>
         function toggleDarkMode() {
@@ -45,6 +52,8 @@
             const btn = document.getElementById('theme-toggle-icon');
             if (btn) btn.innerHTML = isDark ? '☀️' : '🌙';
         }
+
+        let allConcepts = [];
 
         async function loadData() {
             if (localStorage.getItem('darkMode') === 'true') {
@@ -56,6 +65,9 @@
                 const response = await fetch('aasiriyar-data.json');
                 const data = await response.json();
                 
+                // Save for search
+                allConcepts = data.history.conceptsMastered;
+
                 // Update User Info
                 const nameEl = document.querySelector('[data-field="user-name"]');
                 if (nameEl) nameEl.textContent = `வணக்கம், ${data.user.name}`;
@@ -110,6 +122,43 @@
                 // Inject Roadmap / Interactive Tree
                 const roadmap = document.getElementById('curriculum-roadmap');
                 if (roadmap) {
+                    renderRoadmap(data);
+                }
+
+                window.showModuleDetails = (mod, status) => {
+                    if (status === 'locked') {
+                        alert(`🔒 ${mod} is locked. Complete previous modules to unlock!`);
+                        return;
+                    }
+                    alert(`${status === 'completed' ? '✅' : '🎯'} Viewing ${mod}`);
+                };
+
+                window.handleSearch = (query) => {
+                    const roadmap = document.getElementById('curriculum-roadmap');
+                    const roadmapHeader = roadmap.previousElementSibling;
+                    
+                    if (!query) {
+                        roadmapHeader.textContent = "Mastery Roadmap";
+                        renderRoadmap(data);
+                        return;
+                    }
+
+                    roadmapHeader.textContent = `Search Results for "${query}"`;
+                    const filtered = allConcepts.filter(c => 
+                        c.concept.toLowerCase().includes(query.toLowerCase()) || 
+                        (c.description && c.description.toLowerCase().includes(query.toLowerCase())) ||
+                        c.type.toLowerCase().includes(query.toLowerCase())
+                    );
+
+                    if (filtered.length === 0) {
+                        roadmap.innerHTML = `<div class="p-8 text-center text-gray-400 font-bold">No concepts found.</div>`;
+                        return;
+                    }
+
+                    renderConcepts(filtered);
+                };
+
+                function renderRoadmap(data) {
                     const tiers = [
                         { id: 1, name: "The Core (Foundations)", modules: ["Module 1: The Soul Sounds (Uyir)", "Module 2: Strong Consonants (Vallinam)", "Module 3: The Fusion (Uyirmei)"] },
                         { id: 2, name: "The Structure (Grammar)", modules: ["Module 4: Syntactic Architecture", "Module 5: The Time Matrix (Tense)"] },
@@ -117,6 +166,7 @@
                     ];
 
                     const currentModule = data.curriculum.currentModule;
+                    const roadmap = document.getElementById('curriculum-roadmap');
 
                     roadmap.innerHTML = tiers.map(tier => `
                         <div class="mb-6 last:mb-0">
@@ -144,13 +194,23 @@
                     `).join('');
                 }
 
-                window.showModuleDetails = (mod, status) => {
-                    if (status === 'locked') {
-                        alert(`🔒 ${mod} is locked. Complete previous modules to unlock!`);
-                        return;
-                    }
-                    alert(`${status === 'completed' ? '✅' : '🎯'} Viewing ${mod}`);
-                };
+                function renderConcepts(concepts) {
+                    const roadmap = document.getElementById('curriculum-roadmap');
+                    roadmap.innerHTML = concepts.slice().reverse().map((item, idx) => `
+                        <div class="flex items-center gap-4 p-4 rounded-2xl border bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-500 hover:shadow-md transition-all cursor-pointer group mb-3 last:mb-0" onclick="showConceptDetails(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-sm">
+                                <span class="text-[10px] font-bold">${item.type === 'Letter' ? '🔤' : '📚'}</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-bold text-gray-800 dark:text-gray-100 truncate group-hover:text-indigo-700 dark:group-hover:text-indigo-400 transition-colors">${item.concept}</p>
+                                <div class="flex justify-between items-center mt-0.5">
+                                    <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">${item.type}</p>
+                                    <p class="text-[9px] text-gray-300 dark:text-gray-600 font-bold font-mono">${item.date}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
 
                 // Update History Count
                 const historyBtn = document.getElementById('history-btn');
@@ -161,20 +221,7 @@
                         const roadmapHeader = roadmap.previousElementSibling;
                         roadmap.scrollIntoView({ behavior: 'smooth' });
                         roadmapHeader.textContent = "Concepts Mastered History";
-                        roadmap.innerHTML = data.history.conceptsMastered.slice().reverse().map((item, idx) => `
-                            <div class="flex items-center gap-4 p-4 rounded-2xl border bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-500 hover:shadow-md transition-all cursor-pointer group mb-3 last:mb-0" onclick="showConceptDetails(${JSON.stringify(item).replace(/"/g, '&quot;')})">
-                                <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-sm">
-                                    <span class="text-[10px] font-bold">${item.type === 'Letter' ? '🔤' : '📚'}</span>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-bold text-gray-800 dark:text-gray-100 truncate group-hover:text-indigo-700 dark:group-hover:text-indigo-400 transition-colors">${item.concept}</p>
-                                    <div class="flex justify-between items-center mt-0.5">
-                                        <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">${item.type}</p>
-                                        <p class="text-[9px] text-gray-300 dark:text-gray-600 font-bold font-mono">${item.date}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        `).join('');
+                        renderConcepts(data.history.conceptsMastered);
                     };
                 }
 
@@ -276,6 +323,14 @@
 
         <!-- Current Module Section -->
         <div class="p-6">
+            <!-- Search Mastery -->
+            <div id="search-container" class="mb-6">
+                <div class="relative">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Search mastery history..." class="search-input" oninput="handleSearch(this.value)">
+                </div>
+            </div>
+
             <h2 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-4">Current Module</h2>
             <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 border border-gray-100 dark:border-gray-700">
                 <p class="text-lg font-bold text-gray-800 dark:text-gray-100" data-field="current-module">Module 1: The Soul Sounds (Uyir)</p>
