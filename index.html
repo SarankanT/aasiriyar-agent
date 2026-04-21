@@ -180,6 +180,12 @@
                                         <span class="text-gray-600">Status</span>
                                         <span class="font-bold text-green-600">✓ Fully Mastered</span>
                                     </div>
+                                    ${item.description ? `
+                                    <div class="mt-4 pt-4 border-t border-gray-100">
+                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Description</p>
+                                        <p class="text-sm text-gray-700 leading-relaxed">${item.description}</p>
+                                    </div>
+                                    ` : ''}
                                 </div>
                                 <button onclick="this.closest('.fixed').remove()" class="w-full py-3 bg-gray-900 text-white rounded-xl font-bold hover:bg-black transition-colors">Close View</button>
                             </div>
