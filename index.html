@@ -204,7 +204,7 @@
                         roadmap.scrollIntoView({ behavior: 'smooth' });
                         roadmapHeader.textContent = "Completed Lessons Log";
                         roadmap.innerHTML = data.history.lessonsCompleted.slice().reverse().map((item, idx) => `
-                            <div class="flex items-center gap-4 p-4 rounded-2xl border bg-white border-gray-100 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer group mb-3 last:mb-0" onclick="alert('Viewing lesson archive: ${item.title}')">
+                            <div class="flex items-center gap-4 p-4 rounded-2xl border bg-white border-gray-100 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer group mb-3 last:mb-0" onclick="showLessonDetails(${JSON.stringify(item).replace(/"/g, '&quot;')})">
                                 <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-violet-50 text-violet-600 group-hover:bg-violet-600 group-hover:text-white transition-colors shadow-sm">
                                     <span class="text-[10px] font-bold">🎬</span>
                                 </div>
@@ -215,10 +215,53 @@
                                         <p class="text-[9px] text-gray-300 font-bold font-mono">${item.date}</p>
                                     </div>
                                 </div>
+                                <div class="text-violet-200 group-hover:text-violet-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </div>
                             </div>
                         `).join('');
                     };
                 }
+
+                // Global function for lesson details
+                window.showLessonDetails = (item) => {
+                    const overlay = document.createElement('div');
+                    overlay.className = "fixed inset-0 bg-violet-950/40 backdrop-blur-sm z-50 flex items-center justify-center p-6";
+                    overlay.innerHTML = `
+                        <div class="bg-white rounded-3xl w-full max-w-xs overflow-hidden shadow-2xl animate-in zoom-in duration-200">
+                            <div class="p-8 text-center">
+                                <div class="w-16 h-16 bg-violet-100 text-violet-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl">
+                                    🎬
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-1">${item.title}</h3>
+                                <p class="text-xs font-bold text-violet-500 uppercase tracking-widest mb-6">Completed Lesson</p>
+                                <div class="bg-gray-50 rounded-2xl p-4 text-left border border-gray-100 mb-6">
+                                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Lesson Details</p>
+                                    <div class="flex justify-between items-center text-sm">
+                                        <span class="text-gray-600">Date</span>
+                                        <span class="font-bold text-gray-800">${item.date}</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm mt-2">
+                                        <span class="text-gray-600">Reference ID</span>
+                                        <span class="font-mono text-[10px] text-gray-500">${item.id}</span>
+                                    </div>
+                                    ${item.summary ? `
+                                    <div class="mt-4 pt-4 border-t border-gray-100">
+                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Summary</p>
+                                        <p class="text-sm text-gray-700 leading-relaxed mb-3">${item.summary}</p>
+                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Outcome</p>
+                                        <p class="text-sm text-indigo-700 font-medium">${item.outcome}</p>
+                                    </div>
+                                    ` : ''}
+                                </div>
+                                <button onclick="this.closest('.fixed').remove()" class="w-full py-3 bg-gray-900 text-white rounded-xl font-bold hover:bg-black transition-colors">Close View</button>
+                            </div>
+                        </div>
+                    `;
+                    document.body.appendChild(overlay);
+                };
 
                 // Inject XP Progress Bar (New Feature)
                 const xpContainer = document.getElementById('xp-progress-container');
