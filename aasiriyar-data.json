@@ -9,7 +9,13 @@
   "curriculum": {
     "currentModule": "Module 2: Strong Consonants (Vallinam)",
     "weeklyProgress": 20,
-    "completionDate": "2026-04-02"
+    "completionDate": "2026-04-02",
+    "letters": [
+      { "char": "க்", "translit": "k", "status": "mastered", "type": "Vallinam", "description": "The 'k' sound, produced at the back of the throat.", "examples": ["அக்கா (Akka)"] },
+      { "char": "ச்", "translit": "ch", "status": "mastered", "type": "Vallinam", "description": "A sharp 'ch' sound, similar to 'church'.", "examples": ["பச்சை (Pachai)"] },
+      { "char": "ட்", "translit": "t", "status": "current", "type": "Vallinam", "description": "Retroflex 't' sound, where the tongue curls back.", "examples": ["படம் (Padam)"] },
+      { "char": "த்", "translit": "th", "status": "upcoming", "type": "Vallinam", "description": "Dental 'th' sound, tongue touching the teeth." }
+    ]
   },
   "history": {
     "conceptsMastered": [
