@@ -51,7 +51,10 @@
                 if (rankEl) rankEl.textContent = `Lvl ${data.user.level} • ${data.user.rank}`;
 
                 const streakEl = document.querySelector('[data-field="user-streak"]');
-                if (streakEl) streakEl.textContent = `${data.user.streak}🔥`;
+                if (streakEl) {
+                    streakEl.textContent = `${data.user.streak}🔥`;
+                    streakEl.title = `${data.user.streak} Day Learning Streak`;
+                }
                 
                 // Update Progress
                 const progress = data.curriculum.weeklyProgress;
@@ -252,6 +255,12 @@
                     };
                 }
 
+                // Inject Module Info (New Feature)
+                const moduleSubtitle = document.getElementById('module-subtitle');
+                if (moduleSubtitle && data.curriculum.description) {
+                    moduleSubtitle.textContent = data.curriculum.description;
+                }
+
                 // Global function for lesson details
                 window.showLessonDetails = (item) => {
                     const overlay = document.createElement('div');
@@ -374,7 +383,7 @@
             <h2 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-4">Current Module</h2>
             <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
                 <p class="text-lg font-bold text-gray-800" data-field="current-module">Module 1: The Soul Sounds (Uyir)</p>
-                <p class="text-sm text-gray-500 mt-1 italic">Building your phonetic foundation.</p>
+                <p class="text-sm text-gray-500 mt-1 italic" id="module-subtitle">Building your phonetic foundation.</p>
                 
                 <div class="mt-6 grid grid-cols-4 gap-3" id="letter-grid">
                     <!-- Letters will be injected here -->
