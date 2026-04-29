@@ -69,17 +69,39 @@
 
                 // Update Module Title
                 const moduleEl = document.querySelector('[data-field="current-module"]');
-                if (moduleEl) moduleEl.textContent = data.curriculum.currentModule;
+                if (moduleEl && data.curriculum.currentModule) {
+                    const moduleParts = data.curriculum.currentModule.split(':');
+                    if (moduleParts.length > 1) {
+                        moduleEl.innerHTML = `
+                            <span class="inline-block bg-indigo-100 text-indigo-700 text-[10px] px-2 py-0.5 rounded-md mb-2 font-bold uppercase tracking-wider border border-indigo-200">${moduleParts[0].trim()}</span>
+                            <br/>
+                            <span class="text-gray-800">${moduleParts.slice(1).join(':').trim()}</span>
+                        `;
+                    } else {
+                        moduleEl.textContent = data.curriculum.currentModule;
+                    }
+                }
 
                 // Inject Letters
                 const letterGrid = document.getElementById('letter-grid');
-                if (letterGrid && data.curriculum.letters) {
-                    letterGrid.innerHTML = data.curriculum.letters.map(l => `
-                        <div class="${l.status === 'mastered' ? 'bg-green-100 border-green-200 text-green-700' : l.status === 'current' ? 'bg-indigo-600 border-indigo-700 text-white ring-4 ring-indigo-100' : 'bg-gray-100 border-gray-200 text-gray-400 opacity-40'} border rounded-xl p-3 flex flex-col items-center justify-center letter-card group" onclick="showLetterDetails(${JSON.stringify(l).replace(/"/g, '&quot;')})">
-                            <span class="text-2xl font-bold group-hover:scale-110 transition-transform">${l.char}</span>
-                            <span class="text-[10px] font-bold mt-1 uppercase opacity-70">${l.translit}</span>
-                        </div>
-                    `).join('');
+                if (letterGrid) {
+                    if (data.curriculum.letters && data.curriculum.letters.length > 0) {
+                        letterGrid.innerHTML = data.curriculum.letters.map(l => `
+                            <div class="${l.status === 'mastered' ? 'bg-green-100 border-green-200 text-green-700' : l.status === 'current' ? 'bg-indigo-600 border-indigo-700 text-white ring-4 ring-indigo-100' : 'bg-gray-100 border-gray-200 text-gray-400 opacity-40'} border rounded-xl p-3 flex flex-col items-center justify-center letter-card group" onclick="showLetterDetails(${JSON.stringify(l).replace(/"/g, '&quot;')})">
+                                <span class="text-2xl font-bold group-hover:scale-110 transition-transform">${l.char}</span>
+                                <span class="text-[10px] font-bold mt-1 uppercase opacity-70">${l.translit}</span>
+                            </div>
+                        `).join('');
+
+                        // Dynamic CTA Update
+                        const currentLetter = data.curriculum.letters.find(l => l.status === 'current');
+                        const ctaBtn = document.querySelector('[data-field="continue-journey-btn"]');
+                        if (ctaBtn && currentLetter) {
+                            ctaBtn.querySelector('span').textContent = `Master "${currentLetter.char}" Sound`;
+                        }
+                    } else {
+                        letterGrid.innerHTML = '<p class="text-xs text-gray-400 italic col-span-4 py-4 text-center">No letters available for this module.</p>';
+                    }
                 }
 
                 // Global function for letter details
@@ -400,7 +422,7 @@
 
             <!-- Next Steps -->
             <div class="mt-8 space-y-4">
-                <button class="w-full py-4 px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold transition-all shadow-lg shadow-indigo-100 flex items-center justify-center gap-2" onclick="alert('Starting lesson...')">
+                <button data-field="continue-journey-btn" class="w-full py-4 px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold transition-all shadow-lg shadow-indigo-100 flex items-center justify-center gap-2" onclick="alert('Starting lesson...')">
                     <span>Continue Journey</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
