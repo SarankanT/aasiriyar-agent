@@ -148,8 +148,15 @@
                     overlay.innerHTML = `
                         <div class="bg-white rounded-3xl w-full max-w-xs overflow-hidden shadow-2xl animate-in zoom-in duration-200">
                             <div class="p-8 text-center">
-                                <div class="w-20 h-20 bg-indigo-100 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-4 text-4xl font-bold shadow-inner">
-                                    ${letter.char}
+                                <div class="relative">
+                                    <div class="w-20 h-20 bg-indigo-100 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-4 text-4xl font-bold shadow-inner">
+                                        ${letter.char}
+                                    </div>
+                                    <button onclick="playAudio('${letter.char}')" class="absolute -bottom-2 right-1/2 translate-x-12 p-2 bg-white rounded-full shadow-lg border border-indigo-100 text-indigo-600 hover:scale-110 transition-transform" title="Listen to pronunciation">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 14.657a1 1 0 01-1.414-1.414A3 3 0 0011 8V6a5 5 0 014.243 7.657 1 1 0 01-.586 1z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
                                 </div>
                                 <h3 class="text-2xl font-bold text-gray-800 mb-1">${letter.translit.toUpperCase()}</h3>
                                 <p class="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-6">${letter.status} Sound</p>
@@ -177,6 +184,15 @@
                         </div>
                     `;
                     document.body.appendChild(overlay);
+                };
+
+                window.playAudio = (text) => {
+                    // Placeholder for actual TTS integration
+                    console.log("Playing audio for: " + text);
+                    const synth = window.speechSynthesis;
+                    const utter = new SpeechSynthesisUtterance(text);
+                    utter.lang = 'ta-IN';
+                    synth.speak(utter);
                 };
 
                 // Inject Roadmap
