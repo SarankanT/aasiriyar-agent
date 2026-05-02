@@ -28,6 +28,10 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-in { animation: fadeIn 0.4s ease-out forwards; }
         
+        /* XP Badge Animation */
+        .xp-badge { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .xp-badge:hover { transform: scale(1.1) rotate(5deg); }
+
         /* Interactive Streak Animation */
         .streak-active { animation: pulse-gold 2s infinite; }
         @keyframes pulse-gold { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4); } 70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); } }
@@ -379,13 +383,34 @@
                 if (xpContainer) {
                     const xpNextLevel = (data.user.level * 1000);
                     const xpPercent = Math.min(100, (data.user.xp / xpNextLevel) * 100);
+                    
+                    // Generate dynamic badges based on level/xp
+                    const badges = [
+                        { icon: '🌱', name: 'Seeker', minXp: 0 },
+                        { icon: '📚', name: 'Reader', minXp: 500 },
+                        { icon: '✍️', name: 'Writer', minXp: 2000 },
+                        { icon: '🎓', name: 'Scholar', minXp: 5000 }
+                    ];
+                    
+                    const currentBadge = [...badges].reverse().find(b => data.user.xp >= b.minXp) || badges[0];
+
                     xpContainer.innerHTML = `
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Next Level</span>
-                            <span class="text-[10px] font-bold text-indigo-600">${data.user.xp} / ${xpNextLevel} XP</span>
+                        <div class="flex justify-between items-end mb-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center text-lg xp-badge cursor-help" title="Badge: ${currentBadge.name}">
+                                    ${currentBadge.icon}
+                                </div>
+                                <div>
+                                    <p class="text-[9px] font-bold text-indigo-200 uppercase tracking-tighter">Current Rank</p>
+                                    <p class="text-xs font-bold text-white leading-none">${currentBadge.name}</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] font-bold text-indigo-100">${data.user.xp} / ${xpNextLevel} XP</span>
+                            </div>
                         </div>
-                        <div class="w-full bg-gray-100 rounded-full h-1">
-                            <div class="bg-indigo-500 h-1 rounded-full transition-all duration-1000" style="width: ${xpPercent}%"></div>
+                        <div class="w-full bg-indigo-900/30 rounded-full h-1.5 overflow-hidden">
+                            <div class="bg-white h-full rounded-full transition-all duration-1000 ease-out" style="width: ${xpPercent}%"></div>
                         </div>
                     `;
                 }
@@ -432,7 +457,7 @@
                 </div>
             </div>
             
-            <div id="xp-progress-container" class="mt-4 mb-2 bg-indigo-900/10 p-2 rounded-xl">
+            <div id="xp-progress-container" class="mt-4 mb-2 bg-white/5 p-3 rounded-2xl border border-white/10">
                 <!-- XP progress injected via script -->
             </div>
 
