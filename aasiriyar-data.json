@@ -11,6 +11,12 @@
     "description": "Mastering the powerful stop sounds of Tamil.",
     "weeklyProgress": 20,
     "completionDate": "2026-04-02",
+    "modules": [
+      { "name": "The Soul Sounds (Uyir)", "progress": 100 },
+      { "name": "Strong Consonants (Vallinam)", "progress": 20 },
+      { "name": "Soft Consonants (Mellinam)", "progress": 0 },
+      { "name": "Medium Consonants (Idaiyinam)", "progress": 0 }
+    ],
     "letters": [
       { "char": "க்", "translit": "k", "status": "mastered", "type": "Vallinam", "description": "The 'k' sound, produced at the back of the throat.", "examples": ["அக்கா (Akka)"] },
       { "char": "ச்", "translit": "ch", "status": "mastered", "type": "Vallinam", "description": "A sharp 'ch' sound, similar to 'church'.", "examples": ["பச்சை (Pachai)"] },

@@ -145,6 +145,22 @@
                     }
                 }
 
+                // Inject Curriculum Progress (Module Breakdown)
+                const curriculumContainer = document.getElementById('curriculum-progress');
+                if (curriculumContainer && data.curriculum.modules) {
+                    curriculumContainer.innerHTML = data.curriculum.modules.map(mod => `
+                        <div class="mb-4">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-bold text-gray-700">${mod.name}</span>
+                                <span class="text-[10px] font-bold text-gray-400">${mod.progress}%</span>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                <div class="bg-indigo-500 h-full transition-all duration-700" style="width: ${mod.progress}%"></div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
                 // Global function for letter details
                 window.showLetterDetails = (letter) => {
                     const overlay = document.createElement('div');
@@ -492,6 +508,11 @@
 
             <!-- Curriculum Visualization -->
             <div class="mt-8">
+                <h2 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-4">Curriculum Progress</h2>
+                <div id="curriculum-progress" class="bg-gray-50 rounded-2xl p-4 border border-gray-100 mb-6">
+                    <!-- Progress bars injected here -->
+                </div>
+
                 <h2 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-4">Mastery Roadmap</h2>
                 <div class="space-y-3" id="curriculum-roadmap">
                     <!-- Roadmap items will be injected here -->
