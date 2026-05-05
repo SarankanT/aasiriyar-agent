@@ -19,6 +19,13 @@
         .dark .border-gray-200 { border-color: #4b5563; }
         .dark .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5); }
         .progress-ring { transition: stroke-dashoffset 0.35s; transform: rotate(-90deg); transform-origin: 50% 50%; }
+        
+        /* New Concept Map Styles */
+        .concept-node { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .concept-node:hover { transform: scale(1.05); filter: brightness(1.1); }
+        .concept-line { stroke-dasharray: 4; animation: dash 10s linear infinite; }
+        @keyframes dash { to { stroke-dashoffset: -100; } }
+
         .letter-card { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; overflow: hidden; }
         .letter-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
         .letter-card:active { transform: translateY(0) scale(0.98); }
@@ -41,6 +48,42 @@
             document.body.classList.toggle('dark');
             const isDark = document.body.classList.contains('dark');
             localStorage.setItem('darkMode', isDark);
+        }
+
+        function renderConceptMap(data) {
+            const container = document.getElementById('concept-map-container');
+            if (!container) return;
+
+            const modules = data.curriculum.modules;
+            const currentModName = data.curriculum.currentModule.split(':')[0].trim();
+            
+            let html = `
+                <div class="relative h-48 w-full bg-indigo-50/50 dark:bg-gray-900/50 rounded-2xl overflow-hidden border border-indigo-100 dark:border-gray-800 mb-6 flex items-center justify-around px-4">
+                    <svg class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M 15% 50% Q 30% 20%, 50% 50% T 85% 50%" fill="none" class="stroke-indigo-200 dark:stroke-indigo-900 concept-line" stroke-width="2" />
+                    </svg>
+            `;
+
+            modules.forEach((mod, idx) => {
+                const isActive = mod.name === currentModName || data.curriculum.currentModule.includes(mod.name);
+                const isMastered = mod.progress === 100;
+                
+                html += `
+                    <div class="relative z-10 flex flex-col items-center gap-2 concept-node cursor-help" title="${mod.name}: ${mod.progress}% complete" onclick="showConceptDetails({concept: '${mod.name}', type: 'Module', date: 'In Progress', description: '${mod.name} is ${mod.progress}% complete.'})">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center border-2 transition-colors ${
+                            isMastered ? 'bg-green-500 border-green-600 text-white' : 
+                            isActive ? 'bg-indigo-600 border-indigo-700 text-white ring-4 ring-indigo-100' : 
+                            'bg-white dark:bg-gray-800 border-gray-200 text-gray-400'
+                        }">
+                            <span class="text-[10px] font-bold">${isMastered ? '✓' : idx + 1}</span>
+                        </div>
+                        <span class="text-[8px] font-bold uppercase tracking-tighter text-gray-500 dark:text-gray-400 max-w-[60px] text-center">${mod.name.split(' ')[0]}</span>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            container.innerHTML = html;
         }
 
         async function loadData() {
@@ -107,6 +150,9 @@
                 
                 const dateEl = document.querySelector('[data-field="completion-date"]');
                 if (dateEl) dateEl.textContent = new Date(data.curriculum.completionDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+                // Render Concept Map
+                renderConceptMap(data);
 
                 // Update Module Title
                 const moduleEl = document.querySelector('[data-field="current-module"]');
@@ -496,6 +542,10 @@
 
         <!-- Current Module Section -->
         <div class="p-6">
+            <div id="concept-map-container">
+                <!-- Concept Map injected here -->
+            </div>
+            
             <h2 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-4">Current Module</h2>
             <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
                 <p class="text-lg font-bold text-gray-800" data-field="current-module">Module 1: The Soul Sounds (Uyir)</p>
