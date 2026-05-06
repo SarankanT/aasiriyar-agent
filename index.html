@@ -147,6 +147,9 @@
                 
                 const progressBarEl = document.querySelector('[data-field="weekly-progress-bar"]');
                 if (progressBarEl) progressBarEl.style.width = `${progress}%`;
+
+                const progressTooltipEl = document.querySelector('[data-field="weekly-progress-tooltip"]');
+                if (progressTooltipEl) progressTooltipEl.textContent = `${progress}% Weekly Goal Reached`;
                 
                 const dateEl = document.querySelector('[data-field="completion-date"]');
                 if (dateEl) dateEl.textContent = new Date(data.curriculum.completionDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -535,8 +538,12 @@
             </div>
 
             <!-- Simple Progress Bar -->
-            <div class="w-full bg-indigo-900/30 rounded-full h-1.5 mt-2">
-                <div class="bg-white h-1.5 rounded-full" style="width: 50%" data-field="weekly-progress-bar"></div>
+            <div class="w-full bg-indigo-900/30 rounded-full h-1.5 mt-2 relative group cursor-help">
+                <div class="bg-white h-1.5 rounded-full transition-all duration-700" style="width: 50%" data-field="weekly-progress-bar"></div>
+                <!-- Tooltip -->
+                <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap font-bold shadow-xl">
+                    <span data-field="weekly-progress-tooltip">50% Weekly Goal Reached</span>
+                </div>
             </div>
         </div>
 
