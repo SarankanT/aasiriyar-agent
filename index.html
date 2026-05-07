@@ -207,12 +207,28 @@
                 };
 
                 window.playAudio = (text) => {
-                    // Placeholder for actual TTS integration
+                    // Logic for TTS and UI feedback
                     console.log("Playing audio for: " + text);
+                    
                     const synth = window.speechSynthesis;
                     const utter = new SpeechSynthesisUtterance(text);
                     utter.lang = 'ta-IN';
-                    synth.speak(utter);
+                    
+                    // Visual feedback during audio playback
+                    const feedbackIcon = document.querySelector(`[onclick*="playAudio('${text}')"] svg`);
+                    if (feedbackIcon) {
+                        feedbackIcon.classList.add('text-indigo-400', 'scale-125');
+                        utter.onend = () => {
+                            feedbackIcon.classList.remove('text-indigo-400', 'scale-125');
+                        };
+                    }
+
+                    // Attempt to speak
+                    try {
+                        synth.speak(utter);
+                    } catch (e) {
+                        console.error("Audio playback failed", e);
+                    }
                 };
 
                 // Inject Roadmap
