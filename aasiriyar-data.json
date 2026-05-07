@@ -1,42 +1,27 @@
 {
   "user": {
     "name": "Sarankan",
-    "level": 1,
-    "xp": 150,
+    "level": 2,
+    "xp": 260,
     "rank": "மாணவர்",
-    "streak": 1
+    "streak": 6
   },
   "curriculum": {
-    "currentModule": "Module 2: Strong Consonants (Vallinam)",
-    "description": "Mastering the powerful stop sounds of Tamil.",
+    "currentModule": "Module 5: The Flow of Action (Simple Verbs)",
     "weeklyProgress": 20,
-    "completionDate": "2026-04-02",
-    "modules": [
-      { "name": "The Soul Sounds (Uyir)", "progress": 100 },
-      { "name": "Strong Consonants (Vallinam)", "progress": 20 },
-      { "name": "Soft Consonants (Mellinam)", "progress": 0 },
-      { "name": "Medium Consonants (Idaiyinam)", "progress": 0 }
-    ],
-    "letters": [
-      { "char": "க்", "translit": "k", "status": "mastered", "type": "Vallinam", "description": "The 'k' sound, produced at the back of the throat.", "examples": ["அக்கா (Akka)"] },
-      { "char": "ச்", "translit": "ch", "status": "mastered", "type": "Vallinam", "description": "A sharp 'ch' sound, similar to 'church'.", "examples": ["பச்சை (Pachai)"] },
-      { "char": "ட்", "translit": "t", "status": "current", "type": "Vallinam", "description": "Retroflex 't' sound, where the tongue curls back.", "examples": ["படம் (Padam)"] },
-      { "char": "த்", "translit": "th", "status": "upcoming", "type": "Vallinam", "description": "Dental 'th' sound, tongue touching the teeth." }
-    ]
+    "completionDate": null
   },
   "history": {
     "conceptsMastered": [
       {
         "concept": "Short Vowel 'a' (அ)",
         "date": "2026-03-17",
-        "type": "Letter",
-        "description": "The first sound of the Tamil alphabet. Represented by 'அ', it is a short, neutral vowel sound found in words like 'அம்மா' (Amma)."
+        "type": "Letter"
       },
       {
         "concept": "Long Vowel 'aa' (ஆ)",
         "date": "2026-03-17",
-        "type": "Letter",
-        "description": "The long version of 'a'. Written as 'ஆ', it requires a longer breath and is central to words like 'ஆடு' (Aadu)."
+        "type": "Letter"
       },
       {
         "concept": "Remaining Vowel Pairs (u/uu, e/ee, o/oo, ai, au, ah)",
@@ -47,30 +32,246 @@
         "concept": "Vallinam (Strong Consonants) in Context",
         "date": "2026-04-02",
         "type": "Module"
+      },
+      {
+        "concept": "Mellinam (Soft Consonants) & The Buddy System",
+        "date": "2026-04-03",
+        "type": "Macro-Module"
+      },
+      {
+        "concept": "Idaiyinam (Medium Consonants) Intro",
+        "date": "2026-04-14",
+        "type": "Macro-Module"
+      },
+      {
+        "concept": "Idaiyinam in Context (Spatial/Garden)",
+        "date": "2026-04-15",
+        "type": "Macro-Module"
+      },
+      {
+        "concept": "Idaiyinam (Medium Consonants) Mastery",
+        "date": "2026-04-17",
+        "type": "Module"
+      },
+      {
+        "concept": "Basic Action Verbs (Vaa, Po, Paar, Kodu)",
+        "date": "2026-04-26",
+        "type": "Macro-Module"
       }
     ],
     "lessonsCompleted": [
       {
         "title": "Daily Tamil Byte - side by side",
         "date": "2026-03-17",
-        "id": "1483276051239927810",
-        "summary": "Introduction to the first vowel pair.",
-        "outcome": "Mastered 'a' and 'aa'."
+        "id": "1483276051239927810"
       },
       {
         "title": "Daily Tamil Byte (Expanded) - Vallinam Micro-Dialogue",
         "date": "2026-04-02",
-        "id": "1489308530132389908",
-        "summary": "Exploring strong consonants through dialogue.",
-        "outcome": "Improved pronunciation of stop sounds."
+        "id": "1489308530132389908"
       },
       {
-        "title": "Daily Tamil Byte (Expanded) - Milk Shop Micro-Dialogue",
-        "date": "2026-04-30",
-        "id": "1499455374334623929",
-        "summary": "Narrative flow using Vallinam (strong consonants) in a sibling context.",
-        "outcome": "Mastered complex sentence structure with 'Akka' and 'Thambi'."
+        "title": "Module 3: The Nasal Bridge (Mellinam)",
+        "date": "2026-04-03",
+        "id": "c7df161b-e83f-4965-8582-33447c23f199"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Micro-Dialogue (Kite)",
+        "date": "2026-04-03",
+        "id": "1489670867586912527"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Shop/Lentils (Vallinam)",
+        "date": "2026-04-04",
+        "id": "1490033252013047850"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Clever Brother (Vallinam)",
+        "date": "2026-04-05",
+        "id": "1490395663488520294"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Mountain/Flowers (Vallinam)",
+        "date": "2026-04-06",
+        "id": "1490758054256316520"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Saree Shop (Vallinam)",
+        "date": "2026-04-07",
+        "id": "1491120451877863464"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Tomatoes/Appalam (Vallinam)",
+        "date": "2026-04-08",
+        "id": "1491482836367052984"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Dark Murukku (Vallinam)",
+        "date": "2026-04-09",
+        "id": "1491845225121972376"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Heavy Box (Vallinam)",
+        "date": "2026-04-10",
+        "id": "1492207605613858837"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Kite/Flying (Vallinam)",
+        "date": "2026-04-11",
+        "id": "1492570000895246428"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Cat/Milk (Vallinam)",
+        "date": "2026-04-12",
+        "id": "1492932363569725653"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Baby Singing/Wind (Vallinam)",
+        "date": "2026-04-13",
+        "id": "1493294790253477919"
+      },
+      {
+        "title": "Daily Tamil Byte (Macro-Module) - The Golden Middle (Idaiyinam)",
+        "date": "2026-04-14",
+        "id": "1493657185000000000"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Areca Garden (Vallinam)",
+        "date": "2026-04-14",
+        "id": "1493657192459538584"
+      },
+      {
+        "title": "Daily Tamil Byte (Macro-Module) - Idaiyinam in the Garden",
+        "date": "2026-04-15",
+        "id": "1494019597340000000"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Brother/Sister (Vallinam)",
+        "date": "2026-04-15",
+        "id": "1494019546397544498"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Box/Lock (Vallinam)",
+        "date": "2026-04-16",
+        "id": "1494381975736418437"
+      },
+      {
+        "title": "Daily Tamil Byte (Macro-Module) - The Golden Middle (Idaiyinam)",
+        "date": "2026-04-17",
+        "id": "1494744381000000001"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - The Banyan Root (Idaiyinam)",
+        "date": "2026-04-17",
+        "id": "1494744381000000002"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Evening Reflection (Idaiyinam)",
+        "date": "2026-04-17",
+        "id": "1494744381000000003"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Big Ship (Vallinam)",
+        "date": "2026-04-18",
+        "id": "1495106710543663127"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Thambi/Rock (Vallinam)",
+        "date": "2026-04-19",
+        "id": "1495469084203290774"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Father/Tree (Vallinam)",
+        "date": "2026-04-20",
+        "id": "1495831492516118822"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Child/Crow (Vallinam)",
+        "date": "2026-04-21",
+        "id": "1496193900526829689"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Brother/Sister Kite Box (Vallinam)",
+        "date": "2026-04-22",
+        "id": "1496556292767088882"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Brother/Shop (Vallinam)",
+        "date": "2026-04-23",
+        "id": "1496918662991450243"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Father/Ship (Vallinam)",
+        "date": "2026-04-24",
+        "id": "1497281040035610705"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Baby Singing/Brother Plate (Vallinam)",
+        "date": "2026-04-25",
+        "id": "1497643413686714551"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Sister Saree/Gold Box (Vallinam)",
+        "date": "2026-04-26",
+        "id": "1498005811165790448"
+      },
+      {
+        "title": "Daily Tamil Byte (Macro-Module) - Module 5: The Flow of Action",
+        "date": "2026-04-26",
+        "id": "1498005786000000000"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Sister Singing/Sit (Vallinam)",
+        "date": "2026-04-27",
+        "id": "1498368217456971836"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Strong Actions (Vallinam Verbs)",
+        "date": "2026-04-28",
+        "id": "1498730635613704392"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Shop/Bag (Vallinam)",
+        "date": "2026-04-29",
+        "id": "1499092986229948576"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Shop/Tomatoes (Vallinam)",
+        "date": "2026-05-01",
+        "id": "1499817747549519902"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Sister Singing/Brother Sit (Vallinam)",
+        "date": "2026-05-02",
+        "id": "1500180137042382858"
+      }
+      {
+        "title": "Daily Tamil Byte (Expanded) - Sister Singing/Brother Give Box (Vallinam)",
+        "date": "2026-05-03",
+        "id": "1500542537260208209"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Sister Tomatoes/Chutney (Vallinam)",
+        "date": "2026-05-04",
+        "id": "1500904947397562629"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Sister Singing/Brother Give Box (Vallinam)",
+        "date": "2026-05-05",
+        "id": "1501267304632029204"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Sarankan Studying/Singing (Vallinam Verbs)",
+        "date": "2026-05-06",
+        "id": "1501629709736480858"
       }
     ]
+  },
+  "modules": {
+    "Module 5": {
+      "title": "Module 5: The Flow of Action (Simple Verbs)",
+      "status": "In Progress",
+      "focus": "Basic verbs combined with previously learned consonants."
+    }
   }
 }
