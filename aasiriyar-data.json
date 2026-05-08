@@ -9,7 +9,16 @@
   "curriculum": {
     "currentModule": "Module 5: The Flow of Action (Simple Verbs)",
     "weeklyProgress": 20,
-    "completionDate": null
+    "completionDate": null,
+    "modules": [
+      { "name": "Module 1", "progress": 100 },
+      { "name": "Module 2", "progress": 100 },
+      { "name": "Module 3", "progress": 100 },
+      { "name": "Module 4", "progress": 40 },
+      { "name": "Module 5", "progress": 20 },
+      { "name": "Module 6", "progress": 0 },
+      { "name": "Module 7", "progress": 0 }
+    ]
   },
   "history": {
     "conceptsMastered": [
