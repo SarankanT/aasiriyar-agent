@@ -42,6 +42,21 @@
         /* Interactive Streak Animation */
         .streak-active { animation: pulse-gold 2s infinite; }
         @keyframes pulse-gold { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4); } 70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); } }
+        .achievement-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .achievement-card:hover { transform: scale(1.05); filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.4)); }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        .shine-effect { position: relative; overflow: hidden; }
+        .shine-effect::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shine 3s infinite;
+        }
     </style>
     <script>
         function toggleDarkMode() {
@@ -206,6 +221,17 @@
                             <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
                                 <div class="bg-indigo-500 h-full transition-all duration-700" style="width: ${mod.progress}%"></div>
                             </div>
+                        </div>
+                    `).join('');
+                }
+
+                // Inject Achievement Badges (New Feature)
+                const achievementGrid = document.getElementById('achievement-grid');
+                if (achievementGrid && data.history.achievements) {
+                    achievementGrid.innerHTML = data.history.achievements.map(ach => `
+                        <div class="achievement-card ${ach.unlocked ? 'opacity-100 shine-effect' : 'opacity-30 grayscale'} bg-white dark:bg-gray-800 p-2 rounded-xl border border-gray-100 dark:border-gray-700 flex flex-col items-center justify-center text-center cursor-help" title="${ach.name}: ${ach.description}">
+                            <span class="text-xl mb-1">${ach.icon}</span>
+                            <span class="text-[8px] font-bold uppercase tracking-tighter dark:text-gray-400">${ach.name}</span>
                         </div>
                     `).join('');
                 }
@@ -584,6 +610,11 @@
                 <h2 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-4">Curriculum Progress</h2>
                 <div id="curriculum-progress" class="bg-gray-50 rounded-2xl p-4 border border-gray-100 mb-6">
                     <!-- Progress bars injected here -->
+                </div>
+
+                <h2 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-4">Achievements</h2>
+                <div id="achievement-grid" class="grid grid-cols-4 gap-2 mb-8">
+                    <!-- Achievements injected here -->
                 </div>
 
                 <h2 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-4">Mastery Roadmap</h2>

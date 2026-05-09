@@ -21,6 +21,12 @@
     ]
   },
   "history": {
+    "achievements": [
+      { "id": "first_steps", "name": "First Steps", "icon": "👣", "description": "Completed your first Tamil lesson.", "unlocked": true },
+      { "id": "soul_master", "name": "Soul Master", "icon": "✨", "description": "Mastered all Uyir (vowel) sounds.", "unlocked": true },
+      { "id": "streak_3", "name": "On Fire", "icon": "🔥", "description": "Maintained a 3-day learning streak.", "unlocked": false },
+      { "id": "vallinam_hero", "name": "Vallinam Hero", "icon": "🛡️", "description": "Mastered all Strong Consonants.", "unlocked": false }
+    ],
     "conceptsMastered": [
       {
         "concept": "Short Vowel 'a' (அ)",
