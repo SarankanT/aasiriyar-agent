@@ -57,6 +57,13 @@
             background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
             animation: shine 3s infinite;
         }
+        /* Achievement Card Pop Animation */
+        .achievement-pop { animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes pop { 0% { transform: scale(0.8); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+
+        /* Mastered Letter Animation */
+        .mastered-glow { box-shadow: 0 0 15px rgba(34, 197, 94, 0.5); animation: pulse-green 2s infinite; }
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); } }
     </style>
     <script>
         function toggleDarkMode() {
@@ -192,9 +199,10 @@
                 if (letterGrid) {
                     if (data.curriculum.letters && data.curriculum.letters.length > 0) {
                         letterGrid.innerHTML = data.curriculum.letters.map(l => `
-                            <div class="${l.status === 'mastered' ? 'bg-green-100 border-green-200 text-green-700' : l.status === 'current' ? 'bg-indigo-600 border-indigo-700 text-white ring-4 ring-indigo-100' : 'bg-gray-100 border-gray-200 text-gray-400 opacity-40'} border rounded-xl p-3 flex flex-col items-center justify-center letter-card group" onclick="showLetterDetails(${JSON.stringify(l).replace(/"/g, '&quot;')})">
+                            <div class="${l.status === 'mastered' ? 'bg-green-100 border-green-200 text-green-700 mastered-glow' : l.status === 'current' ? 'bg-indigo-600 border-indigo-700 text-white ring-4 ring-indigo-100' : 'bg-gray-100 border-gray-200 text-gray-400 opacity-40'} border rounded-xl p-3 flex flex-col items-center justify-center letter-card group" onclick="showLetterDetails(${JSON.stringify(l).replace(/"/g, '&quot;')})">
                                 <span class="text-2xl font-bold group-hover:scale-110 transition-transform">${l.char}</span>
                                 <span class="text-[10px] font-bold mt-1 uppercase opacity-70">${l.translit}</span>
+                                ${l.status === 'mastered' ? '<span class="absolute top-1 right-1 text-[8px]">⭐</span>' : ''}
                             </div>
                         `).join('');
 
@@ -229,7 +237,7 @@
                 const achievementGrid = document.getElementById('achievement-grid');
                 if (achievementGrid && data.history.achievements) {
                     achievementGrid.innerHTML = data.history.achievements.map(ach => `
-                        <div class="achievement-card ${ach.unlocked ? 'opacity-100 shine-effect' : 'opacity-30 grayscale'} bg-white dark:bg-gray-800 p-2 rounded-xl border border-gray-100 dark:border-gray-700 flex flex-col items-center justify-center text-center cursor-help" title="${ach.name}: ${ach.description}">
+                        <div class="achievement-card ${ach.unlocked ? 'opacity-100 shine-effect achievement-pop' : 'opacity-30 grayscale'} bg-white dark:bg-gray-800 p-2 rounded-xl border border-gray-100 dark:border-gray-700 flex flex-col items-center justify-center text-center cursor-help" title="${ach.name}: ${ach.description}">
                             <span class="text-xl mb-1">${ach.icon}</span>
                             <span class="text-[8px] font-bold uppercase tracking-tighter dark:text-gray-400">${ach.name}</span>
                         </div>
