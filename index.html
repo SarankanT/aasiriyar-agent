@@ -165,10 +165,10 @@
                                 <div class="flex justify-between gap-1 mb-8">
                                     ${days.map((day, i) => `
                                         <div class="flex flex-col items-center gap-2">
-                                            <div class="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold ${i === today ? 'bg-amber-500 text-white shadow-lg shadow-amber-200' : 'bg-gray-100 dark:bg-gray-700 text-gray-400'}">
+                                            <div class="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold ${i === today ? 'bg-amber-500 text-white shadow-lg shadow-amber-200' : 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500'}">
                                                 ${i <= today ? '✓' : ''}
                                             </div>
-                                            <span class="text-[10px] font-bold ${i === today ? 'text-amber-600' : 'text-gray-400'}">${day}</span>
+                                            <span class="text-[10px] font-bold ${i === today ? 'text-amber-600' : 'text-gray-400 dark:text-gray-500'}">${day}</span>
                                         </div>
                                     `).join('')}
                                 </div>
@@ -197,15 +197,31 @@
                 // Render Concept Map
                 renderConceptMap(data);
 
+                // Add Curriculum Overview Sync (Dynamic progress injection for "Curriculum Progress")
+                const curriculumContainer = document.getElementById('curriculum-progress');
+                if (curriculumContainer && data.curriculum.modules) {
+                    curriculumContainer.innerHTML = data.curriculum.modules.map(mod => `
+                        <div class="mb-4">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-bold text-gray-700 dark:text-gray-300">${mod.name}</span>
+                                <span class="text-[10px] font-bold text-gray-400">${mod.progress}%</span>
+                            </div>
+                            <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-1.5 overflow-hidden">
+                                <div class="bg-indigo-500 h-full transition-all duration-700" style="width: ${mod.progress}%"></div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
                 // Update Module Title
                 const moduleEl = document.querySelector('[data-field="current-module"]');
                 if (moduleEl && data.curriculum.currentModule) {
                     const moduleParts = data.curriculum.currentModule.split(':');
                     if (moduleParts.length > 1) {
                         moduleEl.innerHTML = `
-                            <span class="inline-block bg-indigo-100 text-indigo-700 text-[10px] px-2 py-0.5 rounded-md mb-2 font-bold uppercase tracking-wider border border-indigo-200">${moduleParts[0].trim()}</span>
+                            <span class="inline-block bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300 text-[10px] px-2 py-0.5 rounded-md mb-2 font-bold uppercase tracking-wider border border-indigo-200 dark:border-indigo-800">${moduleParts[0].trim()}</span>
                             <br/>
-                            <span class="text-gray-800">${moduleParts.slice(1).join(':').trim()}</span>
+                            <span class="text-gray-800 dark:text-white">${moduleParts.slice(1).join(':').trim()}</span>
                         `;
                     } else {
                         moduleEl.textContent = data.curriculum.currentModule;
@@ -257,7 +273,7 @@
                     achievementGrid.innerHTML = data.history.achievements.map(ach => `
                         <div class="achievement-card ${ach.unlocked ? 'opacity-100 shine-effect achievement-pop' : 'opacity-30 grayscale'} bg-white dark:bg-gray-800 p-2 rounded-xl border border-gray-100 dark:border-gray-700 flex flex-col items-center justify-center text-center cursor-help" title="${ach.name}: ${ach.description}">
                             <span class="text-xl mb-1">${ach.icon}</span>
-                            <span class="text-[8px] font-bold uppercase tracking-tighter dark:text-gray-400">${ach.name}</span>
+                            <span class="text-[8px] font-bold uppercase tracking-tighter text-gray-500 dark:text-gray-400">${ach.name}</span>
                         </div>
                     `).join('');
                 }
@@ -267,40 +283,40 @@
                     const overlay = document.createElement('div');
                     overlay.className = "fixed inset-0 bg-indigo-950/40 backdrop-blur-sm z-50 flex items-center justify-center p-6";
                     overlay.innerHTML = `
-                        <div class="bg-white rounded-3xl w-full max-w-xs overflow-hidden shadow-2xl animate-in zoom-in duration-200">
+                        <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-xs overflow-hidden shadow-2xl animate-in zoom-in duration-200">
                             <div class="p-8 text-center">
                                 <div class="relative">
-                                    <div class="w-20 h-20 bg-indigo-100 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-4 text-4xl font-bold shadow-inner">
+                                    <div class="w-20 h-20 bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 rounded-3xl flex items-center justify-center mx-auto mb-4 text-4xl font-bold shadow-inner">
                                         ${letter.char}
                                     </div>
-                                    <button onclick="playAudio('${letter.char}')" class="absolute -bottom-2 right-1/2 translate-x-12 p-2 bg-white rounded-full shadow-lg border border-indigo-100 text-indigo-600 hover:scale-110 transition-transform" title="Listen to pronunciation">
+                                    <button onclick="playAudio('${letter.char}')" class="absolute -bottom-2 right-1/2 translate-x-12 p-2 bg-white dark:bg-gray-700 rounded-full shadow-lg border border-indigo-100 dark:border-indigo-900 text-indigo-600 dark:text-indigo-400 hover:scale-110 transition-transform" title="Listen to pronunciation">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 14.657a1 1 0 01-1.414-1.414A3 3 0 0011 8V6a5 5 0 014.243 7.657 1 1 0 01-.586 1z" clip-rule="evenodd" />
                                         </svg>
                                     </button>
                                 </div>
-                                <h3 class="text-2xl font-bold text-gray-800 mb-1">${letter.translit.toUpperCase()}</h3>
-                                <p class="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-6">${letter.status} Sound</p>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-1">${letter.translit.toUpperCase()}</h3>
+                                <p class="text-xs font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-widest mb-6">${letter.status} Sound</p>
                                 
-                                <div class="bg-gray-50 rounded-2xl p-4 text-left border border-gray-100 mb-6">
+                                <div class="bg-gray-50 dark:bg-gray-900/50 rounded-2xl p-4 text-left border border-gray-100 dark:border-gray-800 mb-6">
                                     <div class="flex justify-between items-center text-sm mb-3">
-                                        <span class="text-gray-500">Classification</span>
-                                        <span class="font-bold text-gray-800">${letter.type || 'Consonant'}</span>
+                                        <span class="text-gray-500 dark:text-gray-400">Classification</span>
+                                        <span class="font-bold text-gray-800 dark:text-gray-200">${letter.type || 'Consonant'}</span>
                                     </div>
                                     <div class="space-y-2">
-                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Description</p>
-                                        <p class="text-sm text-gray-700 leading-relaxed">${letter.description || 'Practice this sound to improve your pronunciation and recognition in common words.'}</p>
+                                        <p class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Description</p>
+                                        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">${letter.description || 'Practice this sound to improve your pronunciation and recognition in common words.'}</p>
                                     </div>
                                     ${letter.examples ? `
-                                    <div class="mt-4 pt-4 border-t border-gray-100">
-                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Examples</p>
+                                    <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+                                        <p class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Examples</p>
                                         <div class="flex flex-wrap gap-2">
-                                            ${letter.examples.map(ex => `<span class="px-2 py-1 bg-white border border-gray-200 rounded-lg text-xs font-medium text-gray-600">${ex}</span>`).join('')}
+                                            ${letter.examples.map(ex => `<span class="px-2 py-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-xs font-medium text-gray-600 dark:text-gray-400">${ex}</span>`).join('')}
                                         </div>
                                     </div>
                                     ` : ''}
                                 </div>
-                                <button onclick="this.closest('.fixed').remove()" class="w-full py-4 bg-gray-900 text-white rounded-2xl font-bold hover:bg-black transition-colors shadow-lg">Done</button>
+                                <button onclick="this.closest('.fixed').remove()" class="w-full py-4 bg-gray-900 dark:bg-white dark:text-gray-900 text-white rounded-2xl font-bold hover:bg-black dark:hover:bg-gray-100 transition-colors shadow-lg">Done</button>
                             </div>
                         </div>
                     `;
@@ -419,31 +435,31 @@
                     const overlay = document.createElement('div');
                     overlay.className = "fixed inset-0 bg-indigo-950/40 backdrop-blur-sm z-50 flex items-center justify-center p-6";
                     overlay.innerHTML = `
-                        <div class="bg-white rounded-3xl w-full max-w-xs overflow-hidden shadow-2xl animate-in zoom-in duration-200">
+                        <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-xs overflow-hidden shadow-2xl animate-in zoom-in duration-200">
                             <div class="p-8 text-center">
-                                <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl">
+                                <div class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl">
                                     ${item.concept.includes('(') ? item.concept.match(/\((.*?)\)/)[1] : '📖'}
                                 </div>
-                                <h3 class="text-xl font-bold text-gray-800 mb-1">${item.concept}</h3>
-                                <p class="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-6">${item.type}</p>
-                                <div class="bg-gray-50 rounded-2xl p-4 text-left border border-gray-100 mb-6">
-                                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Mastery Record</p>
+                                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-1">${item.concept}</h3>
+                                <p class="text-xs font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-widest mb-6">${item.type}</p>
+                                <div class="bg-gray-50 dark:bg-gray-900/50 rounded-2xl p-4 text-left border border-gray-100 dark:border-gray-800 mb-6">
+                                    <p class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Mastery Record</p>
                                     <div class="flex justify-between items-center text-sm">
-                                        <span class="text-gray-600">Achieved on</span>
-                                        <span class="font-bold text-gray-800">${item.date}</span>
+                                        <span class="text-gray-600 dark:text-gray-400">Achieved on</span>
+                                        <span class="font-bold text-gray-800 dark:text-gray-200">${item.date}</span>
                                     </div>
                                     <div class="flex justify-between items-center text-sm mt-2">
-                                        <span class="text-gray-600">Status</span>
-                                        <span class="font-bold text-green-600">✓ Fully Mastered</span>
+                                        <span class="text-gray-600 dark:text-gray-400">Status</span>
+                                        <span class="font-bold text-green-600 dark:text-green-400">✓ Fully Mastered</span>
                                     </div>
                                     ${item.description ? `
-                                    <div class="mt-4 pt-4 border-t border-gray-100">
-                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Description</p>
-                                        <p class="text-sm text-gray-700 leading-relaxed">${item.description}</p>
+                                    <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+                                        <p class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Description</p>
+                                        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">${item.description}</p>
                                     </div>
                                     ` : ''}
                                 </div>
-                                <button onclick="this.closest('.fixed').remove()" class="w-full py-3 bg-gray-900 text-white rounded-xl font-bold hover:bg-black transition-colors">Close View</button>
+                                <button onclick="this.closest('.fixed').remove()" class="w-full py-3 bg-gray-900 dark:bg-white dark:text-gray-900 text-white rounded-xl font-bold hover:bg-black dark:hover:bg-gray-100 transition-colors">Close View</button>
                             </div>
                         </div>
                     `;
@@ -461,33 +477,33 @@
                     const overlay = document.createElement('div');
                     overlay.className = "fixed inset-0 bg-violet-950/40 backdrop-blur-sm z-50 flex items-center justify-center p-6";
                     overlay.innerHTML = `
-                        <div class="bg-white rounded-3xl w-full max-w-xs overflow-hidden shadow-2xl animate-in zoom-in duration-200">
+                        <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-xs overflow-hidden shadow-2xl animate-in zoom-in duration-200">
                             <div class="p-8 text-center">
-                                <div class="w-16 h-16 bg-violet-100 text-violet-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl">
+                                <div class="w-16 h-16 bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-400 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl">
                                     🎬
                                 </div>
-                                <h3 class="text-xl font-bold text-gray-800 mb-1">${item.title}</h3>
-                                <p class="text-xs font-bold text-violet-500 uppercase tracking-widest mb-6">Completed Lesson</p>
-                                <div class="bg-gray-50 rounded-2xl p-4 text-left border border-gray-100 mb-6">
-                                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Lesson Details</p>
+                                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-1">${item.title}</h3>
+                                <p class="text-xs font-bold text-violet-500 dark:text-violet-400 uppercase tracking-widest mb-6">Completed Lesson</p>
+                                <div class="bg-gray-50 dark:bg-gray-900/50 rounded-2xl p-4 text-left border border-gray-100 dark:border-gray-800 mb-6">
+                                    <p class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Lesson Details</p>
                                     <div class="flex justify-between items-center text-sm">
-                                        <span class="text-gray-600">Date</span>
-                                        <span class="font-bold text-gray-800">${item.date}</span>
+                                        <span class="text-gray-600 dark:text-gray-400">Date</span>
+                                        <span class="font-bold text-gray-800 dark:text-gray-200">${item.date}</span>
                                     </div>
                                     <div class="flex justify-between items-center text-sm mt-2">
-                                        <span class="text-gray-600">Reference ID</span>
-                                        <span class="font-mono text-[10px] text-gray-500">${item.id}</span>
+                                        <span class="text-gray-600 dark:text-gray-400">Reference ID</span>
+                                        <span class="font-mono text-[10px] text-gray-500 dark:text-gray-400">${item.id}</span>
                                     </div>
                                     ${item.summary ? `
-                                    <div class="mt-4 pt-4 border-t border-gray-100">
-                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Summary</p>
-                                        <p class="text-sm text-gray-700 leading-relaxed mb-3">${item.summary}</p>
-                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Outcome</p>
-                                        <p class="text-sm text-indigo-700 font-medium">${item.outcome}</p>
+                                    <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+                                        <p class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Summary</p>
+                                        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-3">${item.summary}</p>
+                                        <p class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Outcome</p>
+                                        <p class="text-sm text-indigo-700 dark:text-indigo-300 font-medium">${item.outcome}</p>
                                     </div>
                                     ` : ''}
                                 </div>
-                                <button onclick="this.closest('.fixed').remove()" class="w-full py-3 bg-gray-900 text-white rounded-xl font-bold hover:bg-black transition-colors">Close View</button>
+                                <button onclick="this.closest('.fixed').remove()" class="w-full py-3 bg-gray-900 dark:bg-white dark:text-gray-900 text-white rounded-xl font-bold hover:bg-black dark:hover:bg-gray-100 transition-colors">Close View</button>
                             </div>
                         </div>
                     `;
