@@ -428,6 +428,12 @@
                             </div>
                         </div>
                     `).join('');
+
+                    // Update Stats Grid
+                    document.getElementById('stat-total-lessons').textContent = data.history.lessonsCompleted.length;
+                    document.getElementById('stat-total-mastery').textContent = data.history.conceptsMastered.length;
+                    document.getElementById('stat-total-xp').textContent = `${data.user.xp.toLocaleString()} XP`;
+                    document.getElementById('stat-current-level').textContent = `Lvl ${data.user.level}`;
                 }
 
                 // Global function for concept details
@@ -668,6 +674,28 @@
 
             <!-- Stats Tab Content -->
             <div id="stats-content" class="tab-content">
+                <!-- Learning Velocity Grid -->
+                <div class="grid grid-cols-2 gap-3 mb-6">
+                    <div class="bg-violet-50 dark:bg-violet-900/20 p-4 rounded-2xl border border-violet-100 dark:border-violet-800">
+                        <p class="text-[10px] font-bold text-violet-500 uppercase tracking-widest mb-1">Total Lessons</p>
+                        <p class="text-3xl font-black text-violet-700 dark:text-violet-300" id="stat-total-lessons">0</p>
+                    </div>
+                    <div class="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-2xl border border-indigo-100 dark:border-indigo-800">
+                        <p class="text-[10px] font-bold text-indigo-500 uppercase tracking-widest mb-1">Mastery Items</p>
+                        <p class="text-3xl font-black text-indigo-700 dark:text-indigo-300" id="stat-total-mastery">0</p>
+                    </div>
+                    <div class="col-span-2 bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 flex items-center justify-between">
+                        <div>
+                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Current XP</p>
+                            <p class="text-xl font-bold text-gray-800 dark:text-white" id="stat-total-xp">0 XP</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Level</p>
+                            <p class="text-xl font-bold text-indigo-600 dark:text-indigo-400" id="stat-current-level">Lvl 1</p>
+                        </div>
+                    </div>
+                </div>
+
                 <h2 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-4">Completed Lessons</h2>
                 <div id="lessons-list" class="space-y-3">
                     <!-- Lesson items will be injected here -->
