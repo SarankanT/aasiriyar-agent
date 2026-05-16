@@ -348,6 +348,58 @@
                     }
                 };
 
+                // Inject Curriculum Visualization (Tree View)
+                const curriculumTreeContainer = document.getElementById('curriculum-tree-viz');
+                if (curriculumTreeContainer) {
+                    const tiers = [
+                        { name: "Tier 1: Core", modules: ["Module 1", "Module 2", "Module 3"] },
+                        { name: "Tier 2: Structure", modules: ["Module 4", "Module 5"] },
+                        { name: "Tier 3: Expression", modules: ["Module 6", "Module 7"] }
+                    ];
+
+                    curriculumTreeContainer.innerHTML = tiers.map(tier => `
+                        <div class="mb-6 last:mb-0">
+                            <h3 class="text-[10px] font-black text-indigo-400 dark:text-indigo-500 uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
+                                <span class="w-1 h-1 bg-indigo-400 rounded-full"></span>
+                                ${tier.name}
+                            </h3>
+                            <div class="space-y-2">
+                                ${tier.modules.map(modName => {
+                                    const modData = data.curriculum.modules.find(m => m.name === modName) || { progress: 0 };
+                                    const isLocked = modData.progress === 0 && !data.curriculum.currentModule.includes(modName);
+                                    const isCurrent = data.curriculum.currentModule.includes(modName);
+                                    
+                                    return `
+                                        <div class="group relative flex items-center gap-3 p-3 rounded-xl border transition-all ${
+                                            isCurrent ? 'bg-white dark:bg-gray-800 border-indigo-200 shadow-sm ring-1 ring-indigo-50' : 
+                                            isLocked ? 'bg-gray-50/50 dark:bg-gray-900/20 border-gray-100 dark:border-gray-800 opacity-60' : 
+                                            'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700'
+                                        }">
+                                            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                                                modData.progress === 100 ? 'bg-green-50 text-green-600' : 
+                                                isCurrent ? 'bg-indigo-600 text-white animate-pulse' : 
+                                                'bg-gray-100 dark:bg-gray-700 text-gray-400'
+                                            }">
+                                                <span class="text-xs font-bold">${modData.progress === 100 ? '✓' : modName.split(' ')[1]}</span>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex justify-between items-center mb-1">
+                                                    <p class="text-xs font-bold text-gray-800 dark:text-gray-200 truncate">${modName}</p>
+                                                    <span class="text-[9px] font-mono font-bold text-gray-400">${modData.progress}%</span>
+                                                </div>
+                                                <div class="w-full bg-gray-100 dark:bg-gray-900 rounded-full h-1 overflow-hidden">
+                                                    <div class="bg-indigo-500 h-full transition-all duration-1000" style="width: ${modData.progress}%"></div>
+                                                </div>
+                                            </div>
+                                            ${isLocked ? '<span class="text-[10px] grayscale">🔒</span>' : ''}
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
                 // Inject Roadmap
                 const roadmap = document.getElementById('curriculum-roadmap');
                 if (roadmap) {
@@ -650,6 +702,11 @@
                     <h2 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-4">Curriculum Progress</h2>
                     <div id="curriculum-progress" class="bg-gray-50 rounded-2xl p-4 border border-gray-100 mb-6">
                         <!-- Progress bars injected here -->
+                    </div>
+
+                    <h2 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-4">Mastery Tree</h2>
+                    <div id="curriculum-tree-viz" class="bg-gray-50 dark:bg-gray-900/40 rounded-2xl p-5 border border-gray-100 dark:border-gray-800 mb-8">
+                        <!-- Tree Visualization injected here -->
                     </div>
 
                     <h2 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-4">Achievements</h2>
