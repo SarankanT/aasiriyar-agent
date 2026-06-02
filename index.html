@@ -70,6 +70,10 @@
         /* Mastered Letter Animation */
         .mastered-glow { box-shadow: 0 0 15px rgba(34, 197, 94, 0.5); animation: pulse-green 2s infinite; }
         @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); } }
+
+        /* Bookmark Toggle Style */
+        .bookmark-btn { transition: all 0.2s; }
+        .bookmark-btn.active { color: #f59e0b; fill: #f59e0b; }
     </style>
     <script>
         function toggleDarkMode() {
@@ -121,6 +125,8 @@
             try {
                 const response = await fetch('aasiriyar-data.json');
                 const data = await response.json();
+                window.masteryData = data.history.conceptsMastered;
+                window.bookmarks = JSON.parse(localStorage.getItem('aasiriyar_bookmarks') || '[]');
                 
                 // Initialize Tabs
                 window.switchTab = (tabId) => {
@@ -436,8 +442,11 @@
 
                 // Update Stats Tab
                 const historyList = document.getElementById('history-list');
-                if (historyList) {
-                    historyList.innerHTML = data.history.conceptsMastered.slice().reverse().map((item, idx) => `
+                window.renderHistory = (items) => {
+                    if (!historyList) return;
+                    historyList.innerHTML = items.slice().reverse().map((item, idx) => {
+                        const isBookmarked = window.bookmarks.includes(item.concept);
+                        return `
                         <div class="flex items-center gap-4 p-4 rounded-2xl border bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-500 hover:shadow-md transition-all cursor-pointer group mb-3 last:mb-0" onclick="showConceptDetails(${JSON.stringify(item).replace(/"/g, '&quot;')})">
                             <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 dark:group-hover:bg-indigo-500 group-hover:text-white transition-colors shadow-sm">
                                 <span class="text-xs font-bold">${item.type === 'Letter' ? ' Tamil' : '📚 Item'}</span>
@@ -449,13 +458,33 @@
                                     <p class="text-[9px] text-gray-300 dark:text-gray-600 font-bold font-mono">${item.date}</p>
                                 </div>
                             </div>
-                            <div class="text-indigo-200 dark:text-indigo-800 group-hover:text-indigo-500 dark:group-hover:text-indigo-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
+                            <button onclick="event.stopPropagation(); toggleBookmark('${item.concept}')" class="bookmark-btn ${isBookmarked ? 'active' : 'text-gray-300'} hover:scale-110 transition-transform">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                  <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
                                 </svg>
-                            </div>
+                            </button>
                         </div>
-                    `).join('');
+                    `}).join('');
+                };
+
+                window.filterMastery = (query) => {
+                    const filtered = window.masteryData.filter(item => 
+                        item.concept.toLowerCase().includes(query.toLowerCase()) || 
+                        item.type.toLowerCase().includes(query.toLowerCase())
+                    );
+                    window.renderHistory(filtered);
+                };
+
+                window.toggleBookmark = (concept) => {
+                    const idx = window.bookmarks.indexOf(concept);
+                    if (idx > -1) window.bookmarks.splice(idx, 1);
+                    else window.bookmarks.push(concept);
+                    localStorage.setItem('aasiriyar_bookmarks', JSON.stringify(window.bookmarks));
+                    window.renderHistory(window.masteryData);
+                };
+
+                if (historyList) {
+                    window.renderHistory(data.history.conceptsMastered);
                 }
 
                 // Update Lessons List
@@ -670,6 +699,17 @@
             
             <div id="xp-progress-container" class="mt-4 mb-2 bg-white/5 p-3 rounded-2xl border border-white/10">
                 <!-- XP progress injected via script -->
+            </div>
+
+            <div class="mt-4">
+                <div class="relative">
+                    <input type="text" id="mastery-search" placeholder="Search Mastered Concepts..." class="w-full bg-white/10 border border-white/20 rounded-xl py-2 px-4 text-xs font-bold text-white placeholder-indigo-200 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all" oninput="filterMastery(this.value)">
+                    <div class="absolute right-3 top-2.5 text-indigo-200 pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                </div>
             </div>
 
             <div class="mt-6 grid grid-cols-2 gap-3 mb-2">
