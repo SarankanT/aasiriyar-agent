@@ -21,10 +21,19 @@
         .progress-ring { transition: stroke-dashoffset 0.35s; transform: rotate(-90deg); transform-origin: 50% 50%; }
         
         /* New Concept Map Styles */
-        .concept-node { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .concept-node:hover { transform: scale(1.05); filter: brightness(1.1); }
-        .concept-line { stroke-dasharray: 4; animation: dash 10s linear infinite; }
+        .concept-node { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
+        .concept-node:hover { transform: scale(1.1); filter: brightness(1.2); }
+        .concept-node:active { transform: scale(0.95); }
+        .concept-line { stroke-dasharray: 4; animation: dash 10s linear infinite; stroke: #6366f1; opacity: 0.4; }
         @keyframes dash { to { stroke-dashoffset: -100; } }
+        
+        /* Node Connectivity Animation */
+        @keyframes pulse-node { 
+            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); } 
+            70% { box-shadow: 0 0 0 8px rgba(99, 102, 241, 0); } 
+            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); } 
+        }
+        .node-active { animation: pulse-node 2s infinite; }
 
         .letter-card { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; overflow: hidden; }
         .letter-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
@@ -101,7 +110,7 @@
                 const isMastered = mod.progress === 100;
                 
                 html += `
-                    <div class="relative z-10 flex flex-col items-center gap-2 concept-node cursor-help" title="${mod.name}: ${mod.progress}% complete" onclick="showConceptDetails({concept: '${mod.name}', type: 'Module', date: 'In Progress', description: '${mod.name} is ${mod.progress}% complete.'})">
+                    <div class="relative z-10 flex flex-col items-center gap-2 concept-node ${isActive ? 'node-active' : ''}" title="${mod.name}: ${mod.progress}% complete">
                         <div class="w-10 h-10 rounded-full flex items-center justify-center border-2 transition-colors ${
                             isMastered ? 'bg-green-500 border-green-600 text-white' : 
                             isActive ? 'bg-indigo-600 border-indigo-700 text-white ring-4 ring-indigo-100' : 
@@ -202,6 +211,25 @@
 
                 // Render Concept Map
                 renderConceptMap(data);
+
+                // Add Click Events to Concept Map Nodes (Enhanced Visual Interaction)
+                setTimeout(() => {
+                    document.querySelectorAll('.concept-node').forEach(node => {
+                        const title = node.getAttribute('title');
+                        if (title) {
+                            const modName = title.split(':')[0].trim();
+                            const modData = data.curriculum.modules.find(m => m.name === modName);
+                            if (modData) {
+                                node.onclick = () => showConceptDetails({
+                                    concept: modData.name,
+                                    type: 'Curriculum Module',
+                                    date: modData.progress === 100 ? 'Mastered' : 'In Progress',
+                                    description: `Status: ${modData.progress}% complete. ${modData.name} focus: ${modData.focus || 'Core curriculum competence.'}`
+                                });
+                            }
+                        }
+                    });
+                }, 100);
 
                 // Add Curriculum Overview Sync (Dynamic progress injection for "Curriculum Progress")
                 const curriculumContainer = document.getElementById('curriculum-progress');
