@@ -304,7 +304,20 @@
                 // Inject Achievement Badges (New Feature)
                 const achievementGrid = document.getElementById('achievement-grid');
                 if (achievementGrid && data.history.achievements) {
-                    achievementGrid.innerHTML = data.history.achievements.map(ach => `
+                    // Dynamic Achievement Logic
+                    const achievements = data.history.achievements.map(ach => {
+                        let unlocked = ach.unlocked;
+                        
+                        // Engine: Check for auto-unlocks if not already true
+                        if (!unlocked) {
+                            if (ach.id === 'streak_3' && data.user.streak >= 3) unlocked = true;
+                            if (ach.id === 'vallinam_hero' && data.curriculum.modules.find(m => m.name === 'Module 2')?.progress === 100) unlocked = true;
+                        }
+                        
+                        return { ...ach, unlocked };
+                    });
+
+                    achievementGrid.innerHTML = achievements.map(ach => `
                         <div class="achievement-card ${ach.unlocked ? 'opacity-100 shine-effect achievement-pop' : 'opacity-30 grayscale'} bg-white dark:bg-gray-800 p-2 rounded-xl border border-gray-100 dark:border-gray-700 flex flex-col items-center justify-center text-center cursor-help" title="${ach.name}: ${ach.description}">
                             <span class="text-xl mb-1">${ach.icon}</span>
                             <span class="text-[8px] font-bold uppercase tracking-tighter text-gray-500 dark:text-gray-400">${ach.name}</span>
