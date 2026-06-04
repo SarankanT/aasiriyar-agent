@@ -2,31 +2,16 @@
   "user": {
     "name": "Sarankan",
     "level": 2,
-    "xp": 260,
+    "xp": 290,
     "rank": "மாணவர்",
-    "streak": 6
+    "streak": 9
   },
   "curriculum": {
     "currentModule": "Module 5: The Flow of Action (Simple Verbs)",
-    "weeklyProgress": 20,
-    "completionDate": null,
-    "modules": [
-      { "name": "Module 1", "progress": 100 },
-      { "name": "Module 2", "progress": 100 },
-      { "name": "Module 3", "progress": 100 },
-      { "name": "Module 4", "progress": 40 },
-      { "name": "Module 5", "progress": 20 },
-      { "name": "Module 6", "progress": 0 },
-      { "name": "Module 7", "progress": 0 }
-    ]
+    "weeklyProgress": 80,
+    "completionDate": null
   },
   "history": {
-    "achievements": [
-      { "id": "first_steps", "name": "First Steps", "icon": "👣", "description": "Completed your first Tamil lesson.", "unlocked": true },
-      { "id": "soul_master", "name": "Soul Master", "icon": "✨", "description": "Mastered all Uyir (vowel) sounds.", "unlocked": true },
-      { "id": "streak_3", "name": "On Fire", "icon": "🔥", "description": "Maintained a 3-day learning streak.", "unlocked": false },
-      { "id": "vallinam_hero", "name": "Vallinam Hero", "icon": "🛡️", "description": "Mastered all Strong Consonants.", "unlocked": false }
-    ],
     "conceptsMastered": [
       {
         "concept": "Short Vowel 'a' (அ)",
@@ -279,6 +264,111 @@
         "title": "Daily Tamil Byte (Expanded) - Sarankan Studying/Singing (Vallinam Verbs)",
         "date": "2026-05-06",
         "id": "1501629709736480858"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Sister Singing/Brother Box (Vallinam)",
+        "date": "2026-05-07",
+        "id": "1501992045542375566"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Sister Plucks Flowers/Garland (Vallinam)",
+        "date": "2026-05-08",
+        "id": "1502354540316463134"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Park/Butterflies/Children (Vallinam)",
+        "date": "2026-05-09",
+        "id": "1502716885404352685"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Father/Brother Ball (Vallinam)",
+        "date": "2026-05-10",
+        "id": "1503079254156378287"
+      },
+      {
+        "title": "Daily Tamil Byte (Macro-Module) - Action Starters (Padikka/Ezhudha)",
+        "date": "2026-05-11",
+        "id": "1503441600000000000"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Brother Reading/Sister Singing (Vallinam Verbs)",
+        "date": "2026-05-11",
+        "id": "1503441639803191367"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Sister/Brother Fruit (Vallinam)",
+        "date": "2026-05-12",
+        "id": "1503804067196043515"
+      },
+      {
+        "title": "Daily Tamil Byte (Macro-Module) - Action Starters - Part 2 (Fruits & Eating)",
+        "date": "2026-05-13",
+        "id": "1503970457848905788"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Brother/Shop/Papaya (Vallinam)",
+        "date": "2026-05-13",
+        "id": "1504166402909802629"
+      },
+      {
+        "title": "Daily Tamil Byte (Macro-Module) - Action Starters - Part 3 (Action Flow)",
+        "date": "2026-05-14",
+        "id": "1504272662095073404"
+      },
+      {
+        "title": "Daily Tamil Byte (Macro-Module) - Action Starters - Part 4 (The Request)",
+        "date": "2026-05-14",
+        "id": "1504280213821984808"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Sister Singing/Brother Listening (Vallinam Verbs)",
+        "date": "2026-05-14",
+        "id": "1504528790104051793"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Brother Shop/Sister Appalam (Vallinam)",
+        "date": "2026-05-15",
+        "id": "1504891193954402494"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Sister Singing/Brother Listening (Micro-Dialogue)",
+        "date": "2026-05-16",
+        "id": "1505253566040772931"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Brother Shop/Lentils (Vallinam)",
+        "date": "2026-05-17",
+        "id": "1505615950769033226"
+      },
+      {
+        "title": "Daily Tamil Byte (Macro-Module) - Action in Context (Time & Tools)",
+        "date": "2026-05-17",
+        "id": "1779033702"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Brother Shop/Box (Vallinam)",
+        "date": "2026-06-01",
+        "id": "1511051826966040776"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Brother Movie/Song (Vallinam)",
+        "date": "2026-06-02",
+        "id": "1511414187807740085"
+      },
+      {
+        "title": "Macro-Module: The Kitchen Request (சமையலறை உதவி)",
+        "date": "2026-06-02",
+        "id": "AA-MOD5-MACRO-001"
+      }
+      {
+        "title": "Daily Tamil Byte (Expanded) - Sugar Box/Coffee (Vallinam)",
+        "date": "2026-06-03",
+        "id": "1511776582161797181"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Father Plate/Brother Food (Vallinam)",
+        "date": "2026-06-04",
+        "id": "1512138965392556093"
       }
     ]
   },
@@ -286,7 +376,8 @@
     "Module 5": {
       "title": "Module 5: The Flow of Action (Simple Verbs)",
       "status": "In Progress",
-      "focus": "Basic verbs combined with previously learned consonants."
+      "focus": "Basic verbs combined with previously learned consonants.",
+      "weeklyProgress": 100
     }
   }
 }
