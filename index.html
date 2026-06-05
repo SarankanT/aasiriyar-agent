@@ -531,25 +531,36 @@
                 // Update Lessons List
                 const lessonsList = document.getElementById('lessons-list');
                 if (lessonsList) {
-                    lessonsList.innerHTML = data.history.lessonsCompleted.slice().reverse().map((item, idx) => `
-                        <div class="flex items-center gap-4 p-4 rounded-2xl border bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 hover:border-violet-300 dark:hover:border-violet-500 hover:shadow-md transition-all cursor-pointer group mb-3 last:mb-0" onclick="showLessonDetails(${JSON.stringify(item).replace(/"/g, '&quot;')})">
-                            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-violet-50 dark:bg-violet-900/40 text-violet-600 dark:text-violet-400 group-hover:bg-violet-600 dark:group-hover:bg-violet-500 group-hover:text-white transition-colors shadow-sm">
-                                <span class="text-[10px] font-bold">🎬</span>
+                    lessonsList.innerHTML = data.history.lessonsCompleted.slice().reverse().map((item, idx) => {
+                        const isDailyByte = item.title.includes('Daily Tamil Byte');
+                        const isMacro = item.title.includes('Macro-Module');
+                        const icon = isMacro ? '🌟' : isDailyByte ? '🕒' : '🎬';
+                        const bgColor = isMacro ? 'bg-amber-50 dark:bg-amber-900/20' : isDailyByte ? 'bg-blue-50 dark:bg-blue-900/20' : 'bg-violet-50 dark:bg-violet-900/40';
+                        const textColor = isMacro ? 'text-amber-600 dark:text-amber-400' : isDailyByte ? 'text-blue-600 dark:text-blue-400' : 'text-violet-600 dark:text-violet-400';
+                        const hoverBorder = isMacro ? 'hover:border-amber-300 dark:hover:border-amber-500' : isDailyByte ? 'hover:border-blue-300 dark:hover:border-blue-500' : 'hover:border-violet-300 dark:hover:border-violet-500';
+                        const groupHoverBg = isMacro ? 'group-hover:bg-amber-600 dark:group-hover:bg-amber-500' : isDailyByte ? 'group-hover:bg-blue-600 dark:group-hover:bg-blue-500' : 'group-hover:bg-violet-600 dark:group-hover:bg-violet-500';
+                        const groupHoverText = isMacro ? 'group-hover:text-amber-700 dark:group-hover:text-amber-300' : isDailyByte ? 'group-hover:text-blue-700 dark:group-hover:text-blue-300' : 'group-hover:text-violet-700 dark:group-hover:text-violet-300';
+                        const iconColor = isMacro ? 'text-amber-200 dark:text-amber-800 group-hover:text-amber-500 dark:group-hover:text-amber-400' : isDailyByte ? 'text-blue-200 dark:text-blue-800 group-hover:text-blue-500 dark:group-hover:text-blue-400' : 'text-violet-200 dark:text-violet-800 group-hover:text-violet-500 dark:group-hover:text-violet-400';
+
+                        return `
+                        <div class="flex items-center gap-4 p-4 rounded-2xl border bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 ${hoverBorder} hover:shadow-md transition-all cursor-pointer group mb-3 last:mb-0" onclick="showLessonDetails(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${bgColor} ${textColor} ${groupHoverBg} group-hover:text-white transition-colors shadow-sm">
+                                <span class="text-[10px] font-bold">${icon}</span>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="text-sm font-bold text-gray-800 dark:text-white truncate group-hover:text-violet-700 dark:group-hover:text-violet-300 transition-colors">${item.title}</p>
+                                <p class="text-sm font-bold text-gray-800 dark:text-white truncate ${groupHoverText} transition-colors">${item.title}</p>
                                 <div class="flex justify-between items-center mt-0.5">
                                     <p class="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-widest font-bold">ID: ${item.id.slice(-4)}</p>
                                     <p class="text-[9px] text-gray-300 dark:text-gray-600 font-bold font-mono">${item.date}</p>
                                 </div>
                             </div>
-                            <div class="text-violet-200 dark:text-violet-800 group-hover:text-violet-500 dark:group-hover:text-violet-400">
+                            <div class="${iconColor}">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
                                 </svg>
                             </div>
                         </div>
-                    `).join('');
+                    `}).join('');
 
                     // Update Stats Grid
                     const masteryItemsCount = data.history.conceptsMastered.length;
