@@ -2,9 +2,9 @@
   "user": {
     "name": "Sarankan",
     "level": 2,
-    "xp": 290,
+    "xp": 300,
     "rank": "மாணவர்",
-    "streak": 9
+    "streak": 10
   },
   "curriculum": {
     "currentModule": "Module 5: The Flow of Action (Simple Verbs)",
@@ -369,6 +369,31 @@
         "title": "Daily Tamil Byte (Expanded) - Father Plate/Brother Food (Vallinam)",
         "date": "2026-06-04",
         "id": "1512138965392556093"
+      },
+      {
+        "title": "Macro-Module: Daily Routine & Food (தினசரி வாழ்க்கை மற்றும் உணவு)",
+        "date": "2026-06-05",
+        "id": "AA-MOD5-MACRO-002"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Morning Routine (Morning Routine/Action)",
+        "date": "2026-06-05",
+        "id": "1512380713914204191"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Kite/Box Dialogue (Vallinam)",
+        "date": "2026-06-05",
+        "id": "1512501352201322647"
+      },
+      {
+        "title": "Macro-Module: Household Actions (வீட்டு வேலைகள்)",
+        "date": "2026-06-06",
+        "id": "AA-MOD5-MACRO-003"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Father/Brother Box (Vallinam Sandhi)",
+        "date": "2026-06-06",
+        "id": "1512865206391275724"
       }
     ]
   },
