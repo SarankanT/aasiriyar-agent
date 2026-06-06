@@ -8,8 +8,30 @@
   },
   "curriculum": {
     "currentModule": "Module 5: The Flow of Action (Simple Verbs)",
+    "description": "Mastering basic actions and verbs in daily life.",
     "weeklyProgress": 80,
-    "completionDate": null
+    "completionDate": "2026-07-15",
+    "modules": [
+      { "name": "Module 1", "progress": 100, "focus": "Soul Sounds (Uyir)" },
+      { "name": "Module 2", "progress": 100, "focus": "Strong Consonants (Vallinam)" },
+      { "name": "Module 3", "progress": 100, "focus": "Soft Consonants (Mellinam)" },
+      { "name": "Module 4", "progress": 100, "focus": "Medium Consonants (Idaiyinam)" },
+      { "name": "Module 5", "progress": 80, "focus": "Action Verbs" },
+      { "name": "Module 6", "progress": 0, "focus": "Sentence Structure" },
+      { "name": "Module 7", "progress": 0, "focus": "Daily Conversation" }
+    ],
+    "letters": [
+      { "char": "வா", "translit": "vaa", "status": "mastered", "type": "Verb Sound", "description": "The sound for 'Come'.", "examples": ["வா (Vaa) - Come"] },
+      { "char": "போ", "translit": "po", "status": "mastered", "type": "Verb Sound", "description": "The sound for 'Go'.", "examples": ["போ (Po) - Go"] },
+      { "char": "தா", "translit": "thaa", "status": "current", "type": "Verb Sound", "description": "The sound for 'Give'.", "examples": ["தா (Thaa) - Give"] },
+      { "char": "பார்", "translit": "paar", "status": "upcoming", "type": "Verb Sound", "description": "The sound for 'See'.", "examples": ["பார் (Paar) - See"] }
+    ],
+    "achievements": [
+      { "id": "streak_3", "name": "Early Bird", "icon": "🌅", "description": "3 Day Streak", "unlocked": true },
+      { "id": "vallinam_hero", "name": "Strong Soul", "icon": "💪", "description": "Mastered Vallinam", "unlocked": true },
+      { "id": "verb_starter", "name": "Action Taker", "icon": "🏃", "description": "Started Module 5", "unlocked": true },
+      { "id": "perfect_week", "name": "Consistent", "icon": "📅", "description": "7 Day Streak", "unlocked": true }
+    ]
   },
   "history": {
     "conceptsMastered": [
@@ -359,7 +381,7 @@
         "title": "Macro-Module: The Kitchen Request (சமையலறை உதவி)",
         "date": "2026-06-02",
         "id": "AA-MOD5-MACRO-001"
-      }
+      },
       {
         "title": "Daily Tamil Byte (Expanded) - Sugar Box/Coffee (Vallinam)",
         "date": "2026-06-03",
