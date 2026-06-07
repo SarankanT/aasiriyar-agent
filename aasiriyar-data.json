@@ -2,14 +2,14 @@
   "user": {
     "name": "Sarankan",
     "level": 2,
-    "xp": 300,
+    "xp": 310,
     "rank": "மாணவர்",
-    "streak": 10
+    "streak": 11
   },
   "curriculum": {
     "currentModule": "Module 5: The Flow of Action (Simple Verbs)",
-    "weeklyProgress": 80,
-    "completionDate": null
+    "weeklyProgress": 100,
+    "completionDate": "2026-06-07"
   },
   "history": {
     "conceptsMastered": [
@@ -57,6 +57,11 @@
         "concept": "Basic Action Verbs (Vaa, Po, Paar, Kodu)",
         "date": "2026-04-26",
         "type": "Macro-Module"
+      },
+      {
+        "concept": "Simple Verbs & Sentence Flow",
+        "date": "2026-06-07",
+        "type": "Module"
       }
     ],
     "lessonsCompleted": [
@@ -359,7 +364,7 @@
         "title": "Macro-Module: The Kitchen Request (சமையலறை உதவி)",
         "date": "2026-06-02",
         "id": "AA-MOD5-MACRO-001"
-      }
+      },
       {
         "title": "Daily Tamil Byte (Expanded) - Sugar Box/Coffee (Vallinam)",
         "date": "2026-06-03",
@@ -394,13 +399,23 @@
         "title": "Daily Tamil Byte (Expanded) - Father/Brother Box (Vallinam Sandhi)",
         "date": "2026-06-06",
         "id": "1512865206391275724"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Cleaning the House (Palli/Thudaikka)",
+        "date": "2026-06-07",
+        "id": "1513227600000000000"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Brother Shop/Box (Vallinam)",
+        "date": "2026-06-07",
+        "id": "1513226106050838590"
       }
     ]
   },
   "modules": {
     "Module 5": {
       "title": "Module 5: The Flow of Action (Simple Verbs)",
-      "status": "In Progress",
+      "status": "Completed",
       "focus": "Basic verbs combined with previously learned consonants.",
       "weeklyProgress": 100
     }
