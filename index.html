@@ -83,6 +83,12 @@
         /* Bookmark Toggle Style */
         .bookmark-btn { transition: all 0.2s; }
         .bookmark-btn.active { color: #f59e0b; fill: #f59e0b; }
+
+        /* Flashcard Styles */
+        .flashcard-inner { transition: transform 0.6s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-front, .flashcard-back { backface-visibility: hidden; position: absolute; inset: 0; }
+        .flashcard-back { transform: rotateY(180deg); }
     </style>
     <script>
         function toggleDarkMode() {
@@ -147,6 +153,61 @@
                         content.classList.remove('active');
                     });
                     document.getElementById(tabId + '-content').classList.add('active');
+                };
+
+                // Flashcard Mode Logic
+                window.openFlashcards = () => {
+                    const mastered = data.history.conceptsMastered.filter(c => c.type === 'Letter');
+                    if (mastered.length === 0) return alert("Master some letters first!");
+                    
+                    let currentIndex = 0;
+                    const overlay = document.createElement('div');
+                    overlay.className = "fixed inset-0 bg-indigo-950/60 backdrop-blur-md z-50 flex flex-col items-center justify-center p-6";
+                    
+                    const updateCard = () => {
+                        const item = mastered[currentIndex];
+                        const char = item.concept.match(/\((.*?)\)/)?.[1] || item.concept.split(' ')[0];
+                        const translit = item.concept.split('(')[0].trim().replace('Short Vowel ', '').replace('Long Vowel ', '');
+                        
+                        overlay.innerHTML = `
+                            <div class="w-full max-w-sm flex flex-col gap-6">
+                                <div class="flex justify-between items-center text-white">
+                                    <h2 class="text-xl font-black uppercase tracking-widest">Mastery Review</h2>
+                                    <span class="text-xs font-bold opacity-60">${currentIndex + 1} / ${mastered.length}</span>
+                                </div>
+                                
+                                <div class="flashcard relative h-80 w-full cursor-pointer group" onclick="this.classList.toggle('flipped')">
+                                    <div class="flashcard-inner relative w-full h-full">
+                                        <!-- Front -->
+                                        <div class="flashcard-front bg-white dark:bg-gray-800 rounded-3xl shadow-2xl flex flex-col items-center justify-center border-b-8 border-indigo-500">
+                                            <span class="text-8xl font-black text-gray-800 dark:text-white mb-4">${char}</span>
+                                            <p class="text-[10px] font-black text-indigo-400 uppercase tracking-[0.3em]">Identify the Sound</p>
+                                        </div>
+                                        <!-- Back -->
+                                        <div class="flashcard-back bg-indigo-600 rounded-3xl shadow-2xl flex flex-col items-center justify-center text-white border-b-8 border-indigo-800">
+                                            <span class="text-6xl font-black mb-2">${translit}</span>
+                                            <span class="text-sm font-bold opacity-80 uppercase tracking-widest mb-6">Sound Mastered</span>
+                                            <button onclick="event.stopPropagation(); playAudio('${char}')" class="p-4 bg-white/20 rounded-full hover:bg-white/30 transition-all">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 14.657a1 1 0 01-1.414-1.414A3 3 0 0011 8V6a5 5 0 014.243 7.657 1 1 0 01-.586 1z" clip-rule="evenodd" /></svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-4">
+                                    <button onclick="window.prevCard()" class="flex-1 py-4 bg-white/10 text-white rounded-2xl font-bold hover:bg-white/20 transition-all">Previous</button>
+                                    <button onclick="window.nextCard()" class="flex-1 py-4 bg-white text-indigo-900 rounded-2xl font-bold hover:bg-gray-100 transition-all shadow-xl">Next Card</button>
+                                </div>
+                                <button onclick="this.closest('.fixed').remove()" class="py-2 text-white/40 text-xs font-bold uppercase tracking-widest hover:text-white transition-colors">Exit Review</button>
+                            </div>
+                        `;
+                    };
+
+                    window.nextCard = () => { currentIndex = (currentIndex + 1) % mastered.length; updateCard(); };
+                    window.prevCard = () => { currentIndex = (currentIndex - 1 + mastered.length) % mastered.length; updateCard(); };
+                    
+                    updateCard();
+                    document.body.appendChild(overlay);
                 };
 
                 // Update User Info
@@ -879,6 +940,11 @@
 
             <!-- Next Steps -->
             <div class="mt-8 space-y-4">
+                <button onclick="openFlashcards()" class="w-full py-4 px-6 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border-2 border-indigo-100 dark:border-indigo-800 rounded-2xl font-bold transition-all hover:bg-indigo-100 dark:hover:bg-indigo-900/40 flex items-center justify-center gap-2 group">
+                    <span class="group-hover:scale-110 transition-transform">🗂️</span>
+                    <span>Review Mastered Letters</span>
+                </button>
+
                 <button data-field="continue-journey-btn" class="w-full py-4 px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold transition-all shadow-lg shadow-indigo-100 flex items-center justify-center gap-2" onclick="alert('Starting lesson...')">
                     <span>Continue Journey</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
