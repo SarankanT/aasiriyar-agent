@@ -161,6 +161,10 @@
                     if (mastered.length === 0) return alert("Master some letters first!");
                     
                     let currentIndex = 0;
+                    let correctCount = 0;
+                    let reviewedCount = 0;
+                    const sessionResults = {};
+
                     const overlay = document.createElement('div');
                     overlay.className = "fixed inset-0 bg-indigo-950/60 backdrop-blur-md z-50 flex flex-col items-center justify-center p-6";
                     
@@ -168,15 +172,22 @@
                         const item = mastered[currentIndex];
                         const char = item.concept.match(/\((.*?)\)/)?.[1] || item.concept.split(' ')[0];
                         const translit = item.concept.split('(')[0].trim().replace('Short Vowel ', '').replace('Long Vowel ', '');
-                        
+                        const isAnswered = sessionResults[currentIndex] !== undefined;
+
                         overlay.innerHTML = `
                             <div class="w-full max-w-sm flex flex-col gap-6">
                                 <div class="flex justify-between items-center text-white">
-                                    <h2 class="text-xl font-black uppercase tracking-widest">Mastery Review</h2>
+                                    <div class="flex flex-col">
+                                        <h2 class="text-xl font-black uppercase tracking-widest">Mastery Review</h2>
+                                        <div class="flex gap-2 mt-1">
+                                            <span class="text-[10px] font-bold px-2 py-0.5 bg-green-500/20 text-green-400 rounded-md border border-green-500/30">Score: ${correctCount}</span>
+                                            <span class="text-[10px] font-bold px-2 py-0.5 bg-white/10 text-white/60 rounded-md border border-white/10">Seen: ${reviewedCount}/${mastered.length}</span>
+                                        </div>
+                                    </div>
                                     <span class="text-xs font-bold opacity-60">${currentIndex + 1} / ${mastered.length}</span>
                                 </div>
                                 
-                                <div class="flashcard relative h-80 w-full cursor-pointer group" onclick="this.classList.toggle('flipped')">
+                                <div class="flashcard relative h-80 w-full cursor-pointer group ${isAnswered ? 'flipped' : ''}" onclick="this.classList.toggle('flipped')">
                                     <div class="flashcard-inner relative w-full h-full">
                                         <!-- Front -->
                                         <div class="flashcard-front bg-white dark:bg-gray-800 rounded-3xl shadow-2xl flex flex-col items-center justify-center border-b-8 border-indigo-500">
@@ -187,9 +198,23 @@
                                         <div class="flashcard-back bg-indigo-600 rounded-3xl shadow-2xl flex flex-col items-center justify-center text-white border-b-8 border-indigo-800">
                                             <span class="text-6xl font-black mb-2">${translit}</span>
                                             <span class="text-sm font-bold opacity-80 uppercase tracking-widest mb-6">Sound Mastered</span>
-                                            <button onclick="event.stopPropagation(); playAudio('${char}')" class="p-4 bg-white/20 rounded-full hover:bg-white/30 transition-all">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 14.657a1 1 0 01-1.414-1.414A3 3 0 0011 8V6a5 5 0 014.243 7.657 1 1 0 01-.586 1z" clip-rule="evenodd" /></svg>
-                                            </button>
+                                            
+                                            <div class="flex gap-4">
+                                                <button onclick="event.stopPropagation(); playAudio('${char}')" class="p-4 bg-white/20 rounded-full hover:bg-white/30 transition-all mb-4">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 14.657a1 1 0 01-1.414-1.414A3 3 0 0011 8V6a5 5 0 014.243 7.657 1 1 0 01-.586 1z" clip-rule="evenodd" /></svg>
+                                                </button>
+                                            </div>
+
+                                            ${!isAnswered ? `
+                                            <div class="flex gap-2 w-full px-6">
+                                                <button onclick="event.stopPropagation(); window.submitScore(false)" class="flex-1 py-2 bg-red-500/20 hover:bg-red-500/40 border border-red-500/40 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">Forgot</button>
+                                                <button onclick="event.stopPropagation(); window.submitScore(true)" class="flex-1 py-2 bg-green-500/20 hover:bg-green-500/40 border border-green-500/40 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">Got It!</button>
+                                            </div>
+                                            ` : `
+                                            <div class="text-[10px] font-black uppercase tracking-widest ${sessionResults[currentIndex] ? 'text-green-400' : 'text-red-400'} animate-pulse">
+                                                ${sessionResults[currentIndex] ? '✓ Point Earned' : '✗ Keep Practicing'}
+                                            </div>
+                                            `}
                                         </div>
                                     </div>
                                 </div>
@@ -201,6 +226,23 @@
                                 <button onclick="this.closest('.fixed').remove()" class="py-2 text-white/40 text-xs font-bold uppercase tracking-widest hover:text-white transition-colors">Exit Review</button>
                             </div>
                         `;
+                    };
+
+                    window.submitScore = (correct) => {
+                        if (sessionResults[currentIndex] !== undefined) return;
+                        sessionResults[currentIndex] = correct;
+                        if (correct) correctCount++;
+                        reviewedCount++;
+                        updateCard();
+                        
+                        // Small bounce effect for the score counter
+                        setTimeout(() => {
+                            const flashcard = document.querySelector('.flashcard');
+                            if (correct) {
+                                flashcard.classList.add('achievement-pop');
+                                setTimeout(() => flashcard.classList.remove('achievement-pop'), 500);
+                            }
+                        }, 50);
                     };
 
                     window.nextCard = () => { currentIndex = (currentIndex + 1) % mastered.length; updateCard(); };
