@@ -2,14 +2,14 @@
   "user": {
     "name": "Sarankan",
     "level": 2,
-    "xp": 310,
+    "xp": 350,
     "rank": "மாணவர்",
-    "streak": 11
+    "streak": 13
   },
   "curriculum": {
-    "currentModule": "Module 5: The Flow of Action (Simple Verbs)",
-    "weeklyProgress": 100,
-    "completionDate": "2026-06-07"
+    "currentModule": "Module 6: Time & Tense (Introduction)",
+    "weeklyProgress": 20,
+    "completionDate": null
   },
   "history": {
     "conceptsMastered": [
@@ -62,6 +62,11 @@
         "concept": "Simple Verbs & Sentence Flow",
         "date": "2026-06-07",
         "type": "Module"
+      },
+      {
+        "concept": "Tense Marker Mechanics (Present/Past/Future)",
+        "date": "2026-06-08",
+        "type": "Macro-Module"
       }
     ],
     "lessonsCompleted": [
@@ -406,9 +411,19 @@
         "id": "1513227600000000000"
       },
       {
-        "title": "Daily Tamil Byte (Expanded) - Brother Shop/Box (Vallinam)",
-        "date": "2026-06-07",
-        "id": "1513226106050838590"
+        "title": "Macro-Module: Transition to Time (நேரம் மற்றும் காலம்)",
+        "date": "2026-06-08",
+        "id": "AA-MOD6-MACRO-001"
+      },
+      {
+        "title": "Macro-Module: Tense Marker Mechanics (கால இடைநிலை)",
+        "date": "2026-06-08",
+        "id": "AA-MOD6-MACRO-002"
+      }
+      {
+        "title": "Daily Tamil Byte (Expanded) - Box/Brother Micro-Dialogue (Vallinam)",
+        "date": "2026-06-08",
+        "id": "1513588525155614720"
       }
     ]
   },
@@ -418,6 +433,12 @@
       "status": "Completed",
       "focus": "Basic verbs combined with previously learned consonants.",
       "weeklyProgress": 100
+    },
+    "Module 6": {
+      "title": "Module 6: Time & Tense (Introduction)",
+      "status": "In Progress",
+      "focus": "Introducing Past, Present, and Future markers.",
+      "weeklyProgress": 20
     }
   }
 }
