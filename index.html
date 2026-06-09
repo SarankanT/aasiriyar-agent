@@ -310,7 +310,10 @@
                 if (progressTooltipEl) progressTooltipEl.textContent = `${progress}% Weekly Goal Reached`;
                 
                 const dateEl = document.querySelector('[data-field="completion-date"]');
-                if (dateEl) dateEl.textContent = new Date(data.curriculum.completionDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                if (dateEl) {
+                    const compDate = data.curriculum.completionDate ? new Date(data.curriculum.completionDate) : new Date();
+                    dateEl.textContent = compDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                }
 
                 // Render Concept Map
                 renderConceptMap(data);
