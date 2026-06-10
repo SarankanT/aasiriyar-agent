@@ -2,36 +2,14 @@
   "user": {
     "name": "Sarankan",
     "level": 2,
-    "xp": 290,
+    "xp": 460,
     "rank": "மாணவர்",
-    "streak": 9
+    "streak": 14
   },
   "curriculum": {
-    "currentModule": "Module 5: The Flow of Action (Simple Verbs)",
-    "description": "Mastering basic actions and verbs in daily life.",
-    "weeklyProgress": 80,
-    "completionDate": "2026-07-15",
-    "modules": [
-      { "name": "Module 1", "progress": 100, "focus": "Soul Sounds (Uyir)" },
-      { "name": "Module 2", "progress": 100, "focus": "Strong Consonants (Vallinam)" },
-      { "name": "Module 3", "progress": 100, "focus": "Soft Consonants (Mellinam)" },
-      { "name": "Module 4", "progress": 100, "focus": "Medium Consonants (Idaiyinam)" },
-      { "name": "Module 5", "progress": 80, "focus": "Action Verbs" },
-      { "name": "Module 6", "progress": 0, "focus": "Sentence Structure" },
-      { "name": "Module 7", "progress": 0, "focus": "Daily Conversation" }
-    ],
-    "letters": [
-      { "char": "வா", "translit": "vaa", "status": "mastered", "type": "Verb Sound", "description": "The sound for 'Come'.", "examples": ["வா (Vaa) - Come"] },
-      { "char": "போ", "translit": "po", "status": "mastered", "type": "Verb Sound", "description": "The sound for 'Go'.", "examples": ["போ (Po) - Go"] },
-      { "char": "தா", "translit": "thaa", "status": "current", "type": "Verb Sound", "description": "The sound for 'Give'.", "examples": ["தா (Thaa) - Give"] },
-      { "char": "பார்", "translit": "paar", "status": "upcoming", "type": "Verb Sound", "description": "The sound for 'See'.", "examples": ["பார் (Paar) - See"] }
-    ],
-    "achievements": [
-      { "id": "streak_3", "name": "Early Bird", "icon": "🌅", "description": "3 Day Streak", "unlocked": true },
-      { "id": "vallinam_hero", "name": "Strong Soul", "icon": "💪", "description": "Mastered Vallinam", "unlocked": true },
-      { "id": "verb_starter", "name": "Action Taker", "icon": "🏃", "description": "Started Module 5", "unlocked": true },
-      { "id": "perfect_week", "name": "Consistent", "icon": "📅", "description": "7 Day Streak", "unlocked": true }
-    ]
+    "currentModule": "Module 7: Past & Future (Timeline Expansion)",
+    "weeklyProgress": 0,
+    "completionDate": "2026-06-10"
   },
   "history": {
     "conceptsMastered": [
@@ -79,6 +57,31 @@
         "concept": "Basic Action Verbs (Vaa, Po, Paar, Kodu)",
         "date": "2026-04-26",
         "type": "Macro-Module"
+      },
+      {
+        "concept": "Simple Verbs & Sentence Flow",
+        "date": "2026-06-07",
+        "type": "Module"
+      },
+      {
+        "concept": "Tense Marker Mechanics (Present/Past/Future)",
+        "date": "2026-06-08",
+        "type": "Macro-Module"
+      },
+      {
+        "concept": "The Present Moment (நிகழ்காலம்) - '-kiṟ-'",
+        "date": "2026-06-08",
+        "type": "Concept"
+      },
+      {
+        "concept": "Experiencer Verbs (Vendum/Pidikkum/Mudiyum)",
+        "date": "2026-06-10",
+        "type": "Macro-Module"
+      },
+      {
+        "concept": "Negative Modal Forms (Vendaam/Pidikkaadhu/Mudiyadhu)",
+        "date": "2026-06-10",
+        "type": "Macro-Module"
       }
     ],
     "lessonsCompleted": [
@@ -105,52 +108,52 @@
       {
         "title": "Daily Tamil Byte (Expanded) - Shop/Lentils (Vallinam)",
         "date": "2026-04-04",
-        "id": "1490033252013047850"
+        "id": "1489670867586912528"
       },
       {
         "title": "Daily Tamil Byte (Expanded) - Clever Brother (Vallinam)",
         "date": "2026-04-05",
-        "id": "1490395663488520294"
+        "id": "1489670867586912529"
       },
       {
         "title": "Daily Tamil Byte (Expanded) - Mountain/Flowers (Vallinam)",
         "date": "2026-04-06",
-        "id": "1490758054256316520"
+        "id": "1489670867586912530"
       },
       {
         "title": "Daily Tamil Byte (Expanded) - Saree Shop (Vallinam)",
         "date": "2026-04-07",
-        "id": "1491120451877863464"
+        "id": "1489670867586912531"
       },
       {
         "title": "Daily Tamil Byte (Expanded) - Tomatoes/Appalam (Vallinam)",
         "date": "2026-04-08",
-        "id": "1491482836367052984"
+        "id": "1489670867586912532"
       },
       {
         "title": "Daily Tamil Byte (Expanded) - Dark Murukku (Vallinam)",
         "date": "2026-04-09",
-        "id": "1491845225121972376"
+        "id": "1489670867586912533"
       },
       {
         "title": "Daily Tamil Byte (Expanded) - Heavy Box (Vallinam)",
         "date": "2026-04-10",
-        "id": "1492207605613858837"
+        "id": "1489670867586912534"
       },
       {
         "title": "Daily Tamil Byte (Expanded) - Kite/Flying (Vallinam)",
         "date": "2026-04-11",
-        "id": "1492570000895246428"
+        "id": "1489670867586912535"
       },
       {
         "title": "Daily Tamil Byte (Expanded) - Cat/Milk (Vallinam)",
         "date": "2026-04-12",
-        "id": "1492932363569725653"
+        "id": "1489670867586912536"
       },
       {
         "title": "Daily Tamil Byte (Expanded) - Baby Singing/Wind (Vallinam)",
         "date": "2026-04-13",
-        "id": "1493294790253477919"
+        "id": "1489670867586912537"
       },
       {
         "title": "Daily Tamil Byte (Macro-Module) - The Golden Middle (Idaiyinam)",
@@ -391,14 +394,90 @@
         "title": "Daily Tamil Byte (Expanded) - Father Plate/Brother Food (Vallinam)",
         "date": "2026-06-04",
         "id": "1512138965392556093"
+      },
+      {
+        "title": "Macro-Module: Daily Routine & Food (தினசரி வாழ்க்கை மற்றும் உணவு)",
+        "date": "2026-06-05",
+        "id": "AA-MOD5-MACRO-002"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Morning Routine (Morning Routine/Action)",
+        "date": "2026-06-05",
+        "id": "1512380713914204191"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Kite/Box Dialogue (Vallinam)",
+        "date": "2026-06-05",
+        "id": "1512501352201322647"
+      },
+      {
+        "title": "Macro-Module: Household Actions (வீட்டு வேலைகள்)",
+        "date": "2026-06-06",
+        "id": "AA-MOD5-MACRO-003"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Father/Brother Box (Vallinam Sandhi)",
+        "date": "2026-06-06",
+        "id": "1512865206391275724"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Cleaning the House (Palli/Thudaikka)",
+        "date": "2026-06-07",
+        "id": "1513227600000000000"
+      },
+      {
+        "title": "Macro-Module: Transition to Time (நேரம் மற்றும் காலம்)",
+        "date": "2026-06-08",
+        "id": "AA-MOD6-MACRO-001"
+      },
+      {
+        "title": "Macro-Module: Tense Marker Mechanics (கால இடைநிலை)",
+        "date": "2026-06-08",
+        "id": "AA-MOD6-MACRO-002"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Box/Brother Micro-Dialogue (Vallinam)",
+        "date": "2026-06-08",
+        "id": "1513588525155614720"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Box/Singing (Vallinam)",
+        "date": "2026-06-09",
+        "id": "1513950898747871252"
+      },
+      {
+        "title": "Daily Tamil Byte (Expanded) - Brother Box/Sister Song (Vallinam)",
+        "date": "2026-06-10",
+        "id": "1514313261091389560"
+      },
+      {
+        "title": "Macro-Module: The Living Present (-kiṟ- in Action)",
+        "date": "2026-06-10",
+        "id": "AA-MOD6-MACRO-003"
+      },
+      {
+        "title": "Macro-Module: Intentions & Abilities (The Experiencer Verbs)",
+        "date": "2026-06-10",
+        "id": "AA-MOD6-MACRO-004"
+      },
+      {
+        "title": "Macro-Module: The Power of 'No' (Negative Modal Forms)",
+        "date": "2026-06-10",
+        "id": "AA-MOD6-MACRO-005"
       }
     ]
   },
   "modules": {
     "Module 5": {
       "title": "Module 5: The Flow of Action (Simple Verbs)",
-      "status": "In Progress",
+      "status": "Completed",
       "focus": "Basic verbs combined with previously learned consonants.",
+      "weeklyProgress": 100
+    },
+    "Module 6": {
+      "title": "Module 6: Time & Tense (Introduction)",
+      "status": "Completed",
+      "focus": "Introducing Past, Present, and Future markers.",
       "weeklyProgress": 100
     }
   }
