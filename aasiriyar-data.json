@@ -2,9 +2,36 @@
   "user": {
     "name": "Sarankan",
     "level": 2,
-    "xp": 350,
+    "xp": 290,
     "rank": "மாணவர்",
-    "streak": 13
+    "streak": 9
+  },
+  "curriculum": {
+    "currentModule": "Module 5: The Flow of Action (Simple Verbs)",
+    "description": "Mastering basic actions and verbs in daily life.",
+    "weeklyProgress": 80,
+    "completionDate": "2026-07-15",
+    "modules": [
+      { "name": "Module 1", "progress": 100, "focus": "Soul Sounds (Uyir)" },
+      { "name": "Module 2", "progress": 100, "focus": "Strong Consonants (Vallinam)" },
+      { "name": "Module 3", "progress": 100, "focus": "Soft Consonants (Mellinam)" },
+      { "name": "Module 4", "progress": 100, "focus": "Medium Consonants (Idaiyinam)" },
+      { "name": "Module 5", "progress": 80, "focus": "Action Verbs" },
+      { "name": "Module 6", "progress": 0, "focus": "Sentence Structure" },
+      { "name": "Module 7", "progress": 0, "focus": "Daily Conversation" }
+    ],
+    "letters": [
+      { "char": "வா", "translit": "vaa", "status": "mastered", "type": "Verb Sound", "description": "The sound for 'Come'.", "examples": ["வா (Vaa) - Come"] },
+      { "char": "போ", "translit": "po", "status": "mastered", "type": "Verb Sound", "description": "The sound for 'Go'.", "examples": ["போ (Po) - Go"] },
+      { "char": "தா", "translit": "thaa", "status": "current", "type": "Verb Sound", "description": "The sound for 'Give'.", "examples": ["தா (Thaa) - Give"] },
+      { "char": "பார்", "translit": "paar", "status": "upcoming", "type": "Verb Sound", "description": "The sound for 'See'.", "examples": ["பார் (Paar) - See"] }
+    ],
+    "achievements": [
+      { "id": "streak_3", "name": "Early Bird", "icon": "🌅", "description": "3 Day Streak", "unlocked": true },
+      { "id": "vallinam_hero", "name": "Strong Soul", "icon": "💪", "description": "Mastered Vallinam", "unlocked": true },
+      { "id": "verb_starter", "name": "Action Taker", "icon": "🏃", "description": "Started Module 5", "unlocked": true },
+      { "id": "perfect_week", "name": "Consistent", "icon": "📅", "description": "7 Day Streak", "unlocked": true }
+    ]
   },
   "history": {
     "conceptsMastered": [
@@ -51,16 +78,6 @@
       {
         "concept": "Basic Action Verbs (Vaa, Po, Paar, Kodu)",
         "date": "2026-04-26",
-        "type": "Macro-Module"
-      },
-      {
-        "concept": "Simple Verbs & Sentence Flow",
-        "date": "2026-06-07",
-        "type": "Module"
-      },
-      {
-        "concept": "Tense Marker Mechanics (Present/Past/Future)",
-        "date": "2026-06-08",
         "type": "Macro-Module"
       }
     ],
@@ -374,79 +391,15 @@
         "title": "Daily Tamil Byte (Expanded) - Father Plate/Brother Food (Vallinam)",
         "date": "2026-06-04",
         "id": "1512138965392556093"
-      },
-      {
-        "title": "Macro-Module: Daily Routine & Food (தினசரி வாழ்க்கை மற்றும் உணவு)",
-        "date": "2026-06-05",
-        "id": "AA-MOD5-MACRO-002"
-      },
-      {
-        "title": "Daily Tamil Byte (Expanded) - Morning Routine (Morning Routine/Action)",
-        "date": "2026-06-05",
-        "id": "1512380713914204191"
-      },
-      {
-        "title": "Daily Tamil Byte (Expanded) - Kite/Box Dialogue (Vallinam)",
-        "date": "2026-06-05",
-        "id": "1512501352201322647"
-      },
-      {
-        "title": "Macro-Module: Household Actions (வீட்டு வேலைகள்)",
-        "date": "2026-06-06",
-        "id": "AA-MOD5-MACRO-003"
-      },
-      {
-        "title": "Daily Tamil Byte (Expanded) - Father/Brother Box (Vallinam Sandhi)",
-        "date": "2026-06-06",
-        "id": "1512865206391275724"
-      },
-      {
-        "title": "Daily Tamil Byte (Expanded) - Cleaning the House (Palli/Thudaikka)",
-        "date": "2026-06-07",
-        "id": "1513227600000000000"
-      },
-      {
-        "title": "Macro-Module: Transition to Time (நேரம் மற்றும் காலம்)",
-        "date": "2026-06-08",
-        "id": "AA-MOD6-MACRO-001"
-      },
-      {
-        "title": "Macro-Module: Tense Marker Mechanics (கால இடைநிலை)",
-        "date": "2026-06-08",
-        "id": "AA-MOD6-MACRO-002"
-      },
-      {
-        "title": "Daily Tamil Byte (Expanded) - Box/Brother Micro-Dialogue (Vallinam)",
-        "date": "2026-06-08",
-        "id": "1513588525155614720"
       }
     ]
   },
-  "curriculum": {
-    "currentModule": "Module 6: Time & Tense (Introduction)",
-    "description": "Mastering the flow of time in Tamil sentences.",
-    "weeklyProgress": 20,
-    "completionDate": "2026-07-15",
-    "modules": [
-      { "name": "Module 1", "progress": 100, "focus": "Soul Sounds (Vowels)" },
-      { "name": "Module 2", "progress": 100, "focus": "Strong Sounds (Vallinam)" },
-      { "name": "Module 3", "progress": 100, "focus": "Nasal Bridge (Mellinam)" },
-      { "name": "Module 4", "progress": 100, "focus": "Golden Middle (Idaiyinam)" },
-      { "name": "Module 5", "progress": 100, "focus": "Action Flow (Verbs)" },
-      { "name": "Module 6", "progress": 20, "focus": "Time Markers (Tense)" },
-      { "name": "Module 7", "progress": 0, "focus": "Complex Sentences" }
-    ],
-    "letters": [
-      { "char": "த்", "translit": "th", "status": "current", "type": "Vallinam", "description": "Soft dental stop, like 'th' in 'thin'.", "examples": ["தம்பி (Thambi)"] },
-      { "char": "ப்", "translit": "p", "status": "mastered", "type": "Vallinam", "description": "Bilabial stop, like 'p' in 'park'.", "examples": ["படம் (Padam)"] },
-      { "char": "க்", "translit": "k", "status": "mastered", "type": "Vallinam", "description": "Velar stop, like 'k' in 'kite'.", "examples": ["கல் (Kal)"] },
-      { "char": "ச்", "translit": "ch", "status": "mastered", "type": "Vallinam", "description": "Palatal stop, like 'ch' in 'chair'.", "examples": ["சிறுவன் (Siruvan)"] }
-    ],
-    "achievements": [
-      { "id": "streak_3", "name": "Fire Starter", "icon": "🔥", "description": "3-day learning streak!", "unlocked": true },
-      { "id": "vallinam_hero", "name": "Strong Soul", "icon": "🛡️", "description": "Mastered all Vallinam sounds.", "unlocked": true },
-      { "id": "action_star", "name": "Action Hero", "icon": "⚡", "description": "Completed Module 5.", "unlocked": true },
-      { "id": "time_traveler", "name": "Time Traveler", "icon": "⏳", "description": "Started learning Tenses.", "unlocked": false }
-    ]
+  "modules": {
+    "Module 5": {
+      "title": "Module 5: The Flow of Action (Simple Verbs)",
+      "status": "In Progress",
+      "focus": "Basic verbs combined with previously learned consonants.",
+      "weeklyProgress": 100
+    }
   }
 }

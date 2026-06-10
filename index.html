@@ -83,18 +83,53 @@
         /* Bookmark Toggle Style */
         .bookmark-btn { transition: all 0.2s; }
         .bookmark-btn.active { color: #f59e0b; fill: #f59e0b; }
-
-        /* Flashcard Styles */
-        .flashcard-inner { transition: transform 0.6s; transform-style: preserve-3d; }
-        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-front, .flashcard-back { backface-visibility: hidden; position: absolute; inset: 0; }
-        .flashcard-back { transform: rotateY(180deg); }
+        /* Visual Pronunciation Feedback */
+        .pronouncing { animation: wave 1s infinite; color: #4f46e5 !important; }
+        @keyframes wave {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(79, 70, 229, 0.4); }
+        }
+        .audio-ripple {
+            position: absolute;
+            border: 2px solid #6366f1;
+            border-radius: 50%;
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+        @keyframes ripple {
+            from { width: 0; height: 0; opacity: 0.5; }
+            to { width: 100px; height: 100px; opacity: 0; }
+        }
     </style>
     <script>
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark');
-            const isDark = document.body.classList.contains('dark');
-            localStorage.setItem('darkMode', isDark);
+        function createRipple(e, parent) {
+            const ripple = document.createElement('div');
+            ripple.className = 'audio-ripple';
+            const rect = parent.getBoundingClientRect();
+            ripple.style.left = `${e.clientX - rect.left}px`;
+            ripple.style.top = `${e.clientY - rect.top}px`;
+            parent.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        }
+
+        function playAudio(text, event, element) {
+            if (event && element) createRipple(event, element);
+            
+            console.log("Playing audio for: " + text);
+            const synth = window.speechSynthesis;
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = 'ta-IN';
+            
+            if (element) {
+                element.classList.add('pronouncing');
+                utter.onend = () => element.classList.remove('pronouncing');
+            }
+
+            try {
+                synth.speak(utter);
+            } catch (e) {
+                console.error("Audio playback failed", e);
+            }
         }
 
         function renderConceptMap(data) {
@@ -155,103 +190,6 @@
                     document.getElementById(tabId + '-content').classList.add('active');
                 };
 
-                // Flashcard Mode Logic
-                window.openFlashcards = () => {
-                    const mastered = data.history.conceptsMastered.filter(c => c.type === 'Letter');
-                    if (mastered.length === 0) return alert("Master some letters first!");
-                    
-                    let currentIndex = 0;
-                    let correctCount = 0;
-                    let reviewedCount = 0;
-                    const sessionResults = {};
-
-                    const overlay = document.createElement('div');
-                    overlay.className = "fixed inset-0 bg-indigo-950/60 backdrop-blur-md z-50 flex flex-col items-center justify-center p-6";
-                    
-                    const updateCard = () => {
-                        const item = mastered[currentIndex];
-                        const char = item.concept.match(/\((.*?)\)/)?.[1] || item.concept.split(' ')[0];
-                        const translit = item.concept.split('(')[0].trim().replace('Short Vowel ', '').replace('Long Vowel ', '');
-                        const isAnswered = sessionResults[currentIndex] !== undefined;
-
-                        overlay.innerHTML = `
-                            <div class="w-full max-w-sm flex flex-col gap-6">
-                                <div class="flex justify-between items-center text-white">
-                                    <div class="flex flex-col">
-                                        <h2 class="text-xl font-black uppercase tracking-widest">Mastery Review</h2>
-                                        <div class="flex gap-2 mt-1">
-                                            <span class="text-[10px] font-bold px-2 py-0.5 bg-green-500/20 text-green-400 rounded-md border border-green-500/30">Score: ${correctCount}</span>
-                                            <span class="text-[10px] font-bold px-2 py-0.5 bg-white/10 text-white/60 rounded-md border border-white/10">Seen: ${reviewedCount}/${mastered.length}</span>
-                                        </div>
-                                    </div>
-                                    <span class="text-xs font-bold opacity-60">${currentIndex + 1} / ${mastered.length}</span>
-                                </div>
-                                
-                                <div class="flashcard relative h-80 w-full cursor-pointer group ${isAnswered ? 'flipped' : ''}" onclick="this.classList.toggle('flipped')">
-                                    <div class="flashcard-inner relative w-full h-full">
-                                        <!-- Front -->
-                                        <div class="flashcard-front bg-white dark:bg-gray-800 rounded-3xl shadow-2xl flex flex-col items-center justify-center border-b-8 border-indigo-500">
-                                            <span class="text-8xl font-black text-gray-800 dark:text-white mb-4">${char}</span>
-                                            <p class="text-[10px] font-black text-indigo-400 uppercase tracking-[0.3em]">Identify the Sound</p>
-                                        </div>
-                                        <!-- Back -->
-                                        <div class="flashcard-back bg-indigo-600 rounded-3xl shadow-2xl flex flex-col items-center justify-center text-white border-b-8 border-indigo-800">
-                                            <span class="text-6xl font-black mb-2">${translit}</span>
-                                            <span class="text-sm font-bold opacity-80 uppercase tracking-widest mb-6">Sound Mastered</span>
-                                            
-                                            <div class="flex gap-4">
-                                                <button onclick="event.stopPropagation(); playAudio('${char}')" class="p-4 bg-white/20 rounded-full hover:bg-white/30 transition-all mb-4">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 14.657a1 1 0 01-1.414-1.414A3 3 0 0011 8V6a5 5 0 014.243 7.657 1 1 0 01-.586 1z" clip-rule="evenodd" /></svg>
-                                                </button>
-                                            </div>
-
-                                            ${!isAnswered ? `
-                                            <div class="flex gap-2 w-full px-6">
-                                                <button onclick="event.stopPropagation(); window.submitScore(false)" class="flex-1 py-2 bg-red-500/20 hover:bg-red-500/40 border border-red-500/40 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">Forgot</button>
-                                                <button onclick="event.stopPropagation(); window.submitScore(true)" class="flex-1 py-2 bg-green-500/20 hover:bg-green-500/40 border border-green-500/40 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">Got It!</button>
-                                            </div>
-                                            ` : `
-                                            <div class="text-[10px] font-black uppercase tracking-widest ${sessionResults[currentIndex] ? 'text-green-400' : 'text-red-400'} animate-pulse">
-                                                ${sessionResults[currentIndex] ? '✓ Point Earned' : '✗ Keep Practicing'}
-                                            </div>
-                                            `}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="flex gap-4">
-                                    <button onclick="window.prevCard()" class="flex-1 py-4 bg-white/10 text-white rounded-2xl font-bold hover:bg-white/20 transition-all">Previous</button>
-                                    <button onclick="window.nextCard()" class="flex-1 py-4 bg-white text-indigo-900 rounded-2xl font-bold hover:bg-gray-100 transition-all shadow-xl">Next Card</button>
-                                </div>
-                                <button onclick="this.closest('.fixed').remove()" class="py-2 text-white/40 text-xs font-bold uppercase tracking-widest hover:text-white transition-colors">Exit Review</button>
-                            </div>
-                        `;
-                    };
-
-                    window.submitScore = (correct) => {
-                        if (sessionResults[currentIndex] !== undefined) return;
-                        sessionResults[currentIndex] = correct;
-                        if (correct) correctCount++;
-                        reviewedCount++;
-                        updateCard();
-                        
-                        // Small bounce effect for the score counter
-                        setTimeout(() => {
-                            const flashcard = document.querySelector('.flashcard');
-                            if (correct) {
-                                flashcard.classList.add('achievement-pop');
-                                setTimeout(() => flashcard.classList.remove('achievement-pop'), 500);
-                            }
-                        }, 50);
-                    };
-
-                    window.nextCard = () => { currentIndex = (currentIndex + 1) % mastered.length; updateCard(); };
-                    window.prevCard = () => { currentIndex = (currentIndex - 1 + mastered.length) % mastered.length; updateCard(); };
-                    
-                    updateCard();
-                    document.body.appendChild(overlay);
-                };
-
                 // Update User Info
                 const nameEl = document.querySelector('[data-field="user-name"]');
                 if (nameEl) nameEl.textContent = `வணக்கம், ${data.user.name}`;
@@ -310,10 +248,7 @@
                 if (progressTooltipEl) progressTooltipEl.textContent = `${progress}% Weekly Goal Reached`;
                 
                 const dateEl = document.querySelector('[data-field="completion-date"]');
-                if (dateEl) {
-                    const compDate = data.curriculum.completionDate ? new Date(data.curriculum.completionDate) : new Date();
-                    dateEl.textContent = compDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-                }
+                if (dateEl) dateEl.textContent = new Date(data.curriculum.completionDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
                 // Render Concept Map
                 renderConceptMap(data);
@@ -373,7 +308,7 @@
                 if (letterGrid) {
                     if (data.curriculum.letters && data.curriculum.letters.length > 0) {
                         letterGrid.innerHTML = data.curriculum.letters.map(l => `
-                            <div class="${l.status === 'mastered' ? 'bg-green-100 border-green-200 text-green-700 mastered-glow' : l.status === 'current' ? 'bg-indigo-600 border-indigo-700 text-white ring-4 ring-indigo-100' : 'bg-gray-100 border-gray-200 text-gray-400 opacity-40'} border rounded-xl p-3 flex flex-col items-center justify-center letter-card group" onclick="showLetterDetails(${JSON.stringify(l).replace(/"/g, '&quot;')})">
+                            <div class="${l.status === 'mastered' ? 'bg-green-100 border-green-200 text-green-700 mastered-glow' : l.status === 'current' ? 'bg-indigo-600 border-indigo-700 text-white ring-4 ring-indigo-100' : 'bg-gray-100 border-gray-200 text-gray-400 opacity-40'} border rounded-xl p-3 flex flex-col items-center justify-center letter-card group" onclick="showLetterDetails(${JSON.stringify(l).replace(/"/g, '&quot;')}); playAudio('${l.char}', event, this)">
                                 <span class="text-2xl font-bold group-hover:scale-110 transition-transform">${l.char}</span>
                                 <span class="text-[10px] font-bold mt-1 uppercase opacity-70">${l.translit}</span>
                                 ${l.status === 'mastered' ? '<span class="absolute top-1 right-1 text-[8px]">⭐</span>' : ''}
@@ -409,20 +344,9 @@
 
                 // Inject Achievement Badges (New Feature)
                 const achievementGrid = document.getElementById('achievement-grid');
-                if (achievementGrid && data.history.achievements) {
-                    // Dynamic Achievement Logic
-                    const achievements = data.history.achievements.map(ach => {
-                        let unlocked = ach.unlocked;
-                        
-                        // Engine: Check for auto-unlocks if not already true
-                        if (!unlocked) {
-                            if (ach.id === 'streak_3' && data.user.streak >= 3) unlocked = true;
-                            if (ach.id === 'vallinam_hero' && data.curriculum.modules.find(m => m.name === 'Module 2')?.progress === 100) unlocked = true;
-                        }
-                        
-                        return { ...ach, unlocked };
-                    });
-
+                if (achievementGrid) {
+                    const achievements = data.curriculum.achievements || [];
+                    
                     achievementGrid.innerHTML = achievements.map(ach => `
                         <div class="achievement-card ${ach.unlocked ? 'opacity-100 shine-effect achievement-pop' : 'opacity-30 grayscale'} bg-white dark:bg-gray-800 p-2 rounded-xl border border-gray-100 dark:border-gray-700 flex flex-col items-center justify-center text-center cursor-help" title="${ach.name}: ${ach.description}">
                             <span class="text-xl mb-1">${ach.icon}</span>
@@ -442,7 +366,7 @@
                                     <div class="w-20 h-20 bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 rounded-3xl flex items-center justify-center mx-auto mb-4 text-4xl font-bold shadow-inner">
                                         ${letter.char}
                                     </div>
-                                    <button onclick="playAudio('${letter.char}')" class="absolute -bottom-2 right-1/2 translate-x-12 p-2 bg-white dark:bg-gray-700 rounded-full shadow-lg border border-indigo-100 dark:border-indigo-900 text-indigo-600 dark:text-indigo-400 hover:scale-110 transition-transform" title="Listen to pronunciation">
+                                    <button onclick="playAudio('${letter.char}', event, this)" class="absolute -bottom-2 right-1/2 translate-x-12 p-2 bg-white dark:bg-gray-700 rounded-full shadow-lg border border-indigo-100 dark:border-indigo-900 text-indigo-600 dark:text-indigo-400 hover:scale-110 transition-transform" title="Listen to pronunciation">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 14.657a1 1 0 01-1.414-1.414A3 3 0 0011 8V6a5 5 0 014.243 7.657 1 1 0 01-.586 1z" clip-rule="evenodd" />
                                         </svg>
@@ -476,7 +400,8 @@
                     document.body.appendChild(overlay);
                 };
 
-                window.playAudio = (text) => {
+                window.playAudio = (text, event, element) => {
+                    if (event && element) createRipple(event, element);
                     // Logic for TTS and UI feedback
                     console.log("Playing audio for: " + text);
                     
@@ -485,12 +410,9 @@
                     utter.lang = 'ta-IN';
                     
                     // Visual feedback during audio playback
-                    const feedbackIcon = document.querySelector(`[onclick*="playAudio('${text}')"] svg`);
-                    if (feedbackIcon) {
-                        feedbackIcon.classList.add('text-indigo-400', 'scale-125');
-                        utter.onend = () => {
-                            feedbackIcon.classList.remove('text-indigo-400', 'scale-125');
-                        };
+                    if (element) {
+                        element.classList.add('pronouncing');
+                        utter.onend = () => element.classList.remove('pronouncing');
                     }
 
                     // Attempt to speak
@@ -985,11 +907,6 @@
 
             <!-- Next Steps -->
             <div class="mt-8 space-y-4">
-                <button onclick="openFlashcards()" class="w-full py-4 px-6 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border-2 border-indigo-100 dark:border-indigo-800 rounded-2xl font-bold transition-all hover:bg-indigo-100 dark:hover:bg-indigo-900/40 flex items-center justify-center gap-2 group">
-                    <span class="group-hover:scale-110 transition-transform">🗂️</span>
-                    <span>Review Mastered Letters</span>
-                </button>
-
                 <button data-field="continue-journey-btn" class="w-full py-4 px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold transition-all shadow-lg shadow-indigo-100 flex items-center justify-center gap-2" onclick="alert('Starting lesson...')">
                     <span>Continue Journey</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
