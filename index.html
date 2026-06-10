@@ -83,12 +83,53 @@
         /* Bookmark Toggle Style */
         .bookmark-btn { transition: all 0.2s; }
         .bookmark-btn.active { color: #f59e0b; fill: #f59e0b; }
+        /* Visual Pronunciation Feedback */
+        .pronouncing { animation: wave 1s infinite; color: #4f46e5 !important; }
+        @keyframes wave {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(79, 70, 229, 0.4); }
+        }
+        .audio-ripple {
+            position: absolute;
+            border: 2px solid #6366f1;
+            border-radius: 50%;
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+        @keyframes ripple {
+            from { width: 0; height: 0; opacity: 0.5; }
+            to { width: 100px; height: 100px; opacity: 0; }
+        }
     </style>
     <script>
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark');
-            const isDark = document.body.classList.contains('dark');
-            localStorage.setItem('darkMode', isDark);
+        function createRipple(e, parent) {
+            const ripple = document.createElement('div');
+            ripple.className = 'audio-ripple';
+            const rect = parent.getBoundingClientRect();
+            ripple.style.left = `${e.clientX - rect.left}px`;
+            ripple.style.top = `${e.clientY - rect.top}px`;
+            parent.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        }
+
+        function playAudio(text, event, element) {
+            if (event && element) createRipple(event, element);
+            
+            console.log("Playing audio for: " + text);
+            const synth = window.speechSynthesis;
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = 'ta-IN';
+            
+            if (element) {
+                element.classList.add('pronouncing');
+                utter.onend = () => element.classList.remove('pronouncing');
+            }
+
+            try {
+                synth.speak(utter);
+            } catch (e) {
+                console.error("Audio playback failed", e);
+            }
         }
 
         function renderConceptMap(data) {
@@ -267,7 +308,7 @@
                 if (letterGrid) {
                     if (data.curriculum.letters && data.curriculum.letters.length > 0) {
                         letterGrid.innerHTML = data.curriculum.letters.map(l => `
-                            <div class="${l.status === 'mastered' ? 'bg-green-100 border-green-200 text-green-700 mastered-glow' : l.status === 'current' ? 'bg-indigo-600 border-indigo-700 text-white ring-4 ring-indigo-100' : 'bg-gray-100 border-gray-200 text-gray-400 opacity-40'} border rounded-xl p-3 flex flex-col items-center justify-center letter-card group" onclick="showLetterDetails(${JSON.stringify(l).replace(/"/g, '&quot;')})">
+                            <div class="${l.status === 'mastered' ? 'bg-green-100 border-green-200 text-green-700 mastered-glow' : l.status === 'current' ? 'bg-indigo-600 border-indigo-700 text-white ring-4 ring-indigo-100' : 'bg-gray-100 border-gray-200 text-gray-400 opacity-40'} border rounded-xl p-3 flex flex-col items-center justify-center letter-card group" onclick="showLetterDetails(${JSON.stringify(l).replace(/"/g, '&quot;')}); playAudio('${l.char}', event, this)">
                                 <span class="text-2xl font-bold group-hover:scale-110 transition-transform">${l.char}</span>
                                 <span class="text-[10px] font-bold mt-1 uppercase opacity-70">${l.translit}</span>
                                 ${l.status === 'mastered' ? '<span class="absolute top-1 right-1 text-[8px]">⭐</span>' : ''}
@@ -325,7 +366,7 @@
                                     <div class="w-20 h-20 bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 rounded-3xl flex items-center justify-center mx-auto mb-4 text-4xl font-bold shadow-inner">
                                         ${letter.char}
                                     </div>
-                                    <button onclick="playAudio('${letter.char}')" class="absolute -bottom-2 right-1/2 translate-x-12 p-2 bg-white dark:bg-gray-700 rounded-full shadow-lg border border-indigo-100 dark:border-indigo-900 text-indigo-600 dark:text-indigo-400 hover:scale-110 transition-transform" title="Listen to pronunciation">
+                                    <button onclick="playAudio('${letter.char}', event, this)" class="absolute -bottom-2 right-1/2 translate-x-12 p-2 bg-white dark:bg-gray-700 rounded-full shadow-lg border border-indigo-100 dark:border-indigo-900 text-indigo-600 dark:text-indigo-400 hover:scale-110 transition-transform" title="Listen to pronunciation">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 14.657a1 1 0 01-1.414-1.414A3 3 0 0011 8V6a5 5 0 014.243 7.657 1 1 0 01-.586 1z" clip-rule="evenodd" />
                                         </svg>
@@ -359,7 +400,8 @@
                     document.body.appendChild(overlay);
                 };
 
-                window.playAudio = (text) => {
+                window.playAudio = (text, event, element) => {
+                    if (event && element) createRipple(event, element);
                     // Logic for TTS and UI feedback
                     console.log("Playing audio for: " + text);
                     
@@ -368,12 +410,9 @@
                     utter.lang = 'ta-IN';
                     
                     // Visual feedback during audio playback
-                    const feedbackIcon = document.querySelector(`[onclick*="playAudio('${text}')"] svg`);
-                    if (feedbackIcon) {
-                        feedbackIcon.classList.add('text-indigo-400', 'scale-125');
-                        utter.onend = () => {
-                            feedbackIcon.classList.remove('text-indigo-400', 'scale-125');
-                        };
+                    if (element) {
+                        element.classList.add('pronouncing');
+                        utter.onend = () => element.classList.remove('pronouncing');
                     }
 
                     // Attempt to speak
