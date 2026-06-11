@@ -8,8 +8,8 @@
   },
   "curriculum": {
     "currentModule": "Module 7: Past & Future (Timeline Expansion)",
-    "weeklyProgress": 0,
-    "completionDate": "2026-06-10"
+    "weeklyProgress": 25,
+    "completionDate": "2026-06-15"
   },
   "history": {
     "conceptsMastered": [
@@ -82,6 +82,12 @@
         "concept": "Negative Modal Forms (Vendaam/Pidikkaadhu/Mudiyadhu)",
         "date": "2026-06-10",
         "type": "Macro-Module"
+      },
+      {
+        "concept": "Past Tense Markers (-t-, -it-, -nt-, -in-)",
+        "date": "2026-06-11",
+        "type": "Macro-Module",
+        "description": "Mastering the four primary ways to express completed actions in Tamil."
       }
     ],
     "lessonsCompleted": [
@@ -351,7 +357,7 @@
         "id": "1504528790104051793"
       },
       {
-        "title": "Daily Tamil Byte (Expanded) - Brother Shop/Sister Appalam (Vallinam)",
+        "title": "Daily Tamil Byte (Expanded) - Brother Shop/Appalam (Vallinam)",
         "date": "2026-05-15",
         "id": "1504891193954402494"
       },
@@ -464,6 +470,13 @@
         "title": "Macro-Module: The Power of 'No' (Negative Modal Forms)",
         "date": "2026-06-10",
         "id": "AA-MOD6-MACRO-005"
+      },
+      {
+        "title": "Macro-Module: Looking Back (Introduction to Past Tense)",
+        "date": "2026-06-11",
+        "id": "AA-MOD7-MACRO-001",
+        "summary": "Exploring the mechanics of the past tense and its first marker (-t-).",
+        "outcome": "Ability to describe basic actions completed in the past."
       }
     ]
   },
@@ -479,6 +492,12 @@
       "status": "Completed",
       "focus": "Introducing Past, Present, and Future markers.",
       "weeklyProgress": 100
+    },
+    "Module 7": {
+      "title": "Module 7: Past & Future (Timeline Expansion)",
+      "status": "In Progress",
+      "focus": "Deep dive into Past and Future tense markers and sentence construction.",
+      "weeklyProgress": 25
     }
   }
 }
